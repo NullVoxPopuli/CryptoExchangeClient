@@ -43,7 +43,7 @@ type RestClient(?apiKey: string) =
     // Charts
     ////////////////////////////
     member __.GetCandles (tradingPairId : string) =
-        __.Get "chart/candles/" + tradingPairId
+        __.Get ("chart/candles/" + tradingPairId)
         |> CandlesResponse.Parse
    
     ////////////////////////////
@@ -68,12 +68,11 @@ type RestClient(?apiKey: string) =
         currencies
 
     member __.GetOrderBook (tradingPairId: string) =
-        __.Get "market/orderbooks/" + tradingPairId
+        __.Get ("market/orderbooks/" + tradingPairId)
         |> OrderBookResponse.Parse
 
     member __.GetOrderBookPrecisions (tradingPairId: string) =
-        "market/orderbook/precisions/" + tradingPairId
-        |> __.Get 
+        __.Get ("market/orderbook/precisions/" + tradingPairId)
         |> OrderBookPrecisions.Parse
 
     member __.GetTradingStatistics =
@@ -82,11 +81,11 @@ type RestClient(?apiKey: string) =
 
 
     member __.GetTicker (tradingPairId: string) =
-        __.Get "market/tickers/" + tradingPairId
+        __.Get ("market/tickers/" + tradingPairId)
         |> TickerResponse.Parse
 
     member __.GetRecentTrades (tradingPairId: string) =
-        __.Get "market/trades/" + tradingPairId
+        __.Get ("market/trades/" + tradingPairId)
         |> RecentTradesResponse.Parse
 
     ////////////////////////////
@@ -98,12 +97,12 @@ type RestClient(?apiKey: string) =
         |> ExtractOrders(KnownMarkets)
 
     member __.GetOrder (id: string) =
-        __.Get "trading/orders/" + id
+        __.Get ("trading/orders/" + id)
         |> GetOrderResponse.Parse
         |> ExtractOrder(KnownMarkets)
 
     member __.GetTrades (id: string) =
-        __.Get "trading/orders/" + id + "/trades"
+        __.Get ("trading/orders/" + id + "/trades")
         |> GetOrderTradesResponse.Parse
 
     member __.PlaceOrder (body: PlaceOrderParameters) =
@@ -116,7 +115,7 @@ type RestClient(?apiKey: string) =
         |> ModifyOrderResponse.Parse
 
     member __.CancelOrder (id: string) =
-        __.Destroy "trading/orders/" + id
+        __.Destroy ("trading/orders/" + id)
         |> CancelOrderResponse.Parse
 
     member __.GetOrderHistory (?tradingPair: string, ?limit: int) =
@@ -124,7 +123,7 @@ type RestClient(?apiKey: string) =
         |> OrderHistoryResponse.Parse
 
     member __.GetTrade (id: string) =
-        __.Get "trading/trades/" + id
+        __.Get ("trading/trades/" + id)
         |> TradeResponse.Parse
 
     member __.GetTradeHistory (?tradingPair: string, ?limit: int) =
@@ -163,7 +162,7 @@ type RestClient(?apiKey: string) =
 
 
     member __.GetWithdrawal (id: string) =
-        __.Get "wallet/withdrawals/" + id
+        __.Get ("wallet/withdrawals/" + id)
         |> WithdrawalResponse.Parse
 
     member __.GetAllWithdrawals (id: string) =
@@ -172,7 +171,7 @@ type RestClient(?apiKey: string) =
 
 
     member __.GetDeposit (id: string) =
-        __.Get "wallet/deposits/" + id
+        __.Get ("wallet/deposits/" + id)
         |> DepositResponse.Parse
 
     member __.GetAllDeposits (id: string) =
