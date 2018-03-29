@@ -178,7 +178,9 @@ type RestClient(?apiKey: string) =
         __.Get "wallet/deposits"
         |> AllDepositsResponse.Parse
 
-
+    //type Body = 
+    //        | JsonableParameters 
+    //        | None
 
     ////////////////////////////////
     // HTTP / How to make a request
@@ -191,23 +193,27 @@ type RestClient(?apiKey: string) =
         let q = match query with
                 | Some queryParams -> queryParams
                 | None -> []
+  
+        let headers = [
+            Accept HttpContentTypes.Json;
+            ContentType HttpContentTypes.Json;
+            "authorization", ApiKey;
+            "nonce", DateTime.UtcNow.Millisecond.ToString(); 
+        ]
 
-        let b = match body with
-                | Some b -> b.ToString
-                | None -> """{}"""
+        let result = match body with 
+                        | Some b -> Http.RequestString (
+                                                            url,
+                                                            query = q,
+                                                            body = TextRequest b.ToString,
+                                                            headers = headers,
+                                                            httpMethod = method.ToString()
+                                                        )
+                        | None -> Http.RequestString (
+                                                        url,
+                                                        query = q,
+                                                        headers = headers,
+                                                        httpMethod = method.ToString()
+                                                    )
 
-        let response =
-            Http.RequestString (
-                url,
-                query = q,
-                body = TextRequest(b),
-                headers = [
-                    Accept HttpContentTypes.Json;
-                    ContentType HttpContentTypes.Json;
-                    "authorization", ApiKey;
-                    "nonce", DateTime.UtcNow.Millisecond.ToString(); 
-                ],
-                httpMethod = method.ToString()
-            )
-
-        response
+        result

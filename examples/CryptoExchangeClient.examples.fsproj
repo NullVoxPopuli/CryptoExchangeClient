@@ -15,7 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="cobinhood\Cobinhood.System.fsx" />
+    <Compile Include="InteractiveUtils.fs" />
+    <Compile Include="CobinhoodDemo.fs" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
