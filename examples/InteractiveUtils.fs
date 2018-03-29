@@ -69,8 +69,9 @@ module InteractiveUtils =
 
             match selected with
             | (s: string * string * (unit -> unit)) -> do
-                let (_num, _title, demo) = s
+                let (_num, demoTitle, demo) = s
 
+                WriteHeader demoTitle 
                 demo ()
 
                 PromptMenu(title, optionMap)

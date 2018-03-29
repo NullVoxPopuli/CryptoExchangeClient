@@ -72,7 +72,8 @@ type RestClient(?apiKey: string) =
         |> OrderBookResponse.Parse
 
     member __.GetOrderBookPrecisions (tradingPairId: string) =
-        __.Get "market/orderbook/precisions/" + tradingPairId
+        "market/orderbook/precisions/" + tradingPairId
+        |> __.Get 
         |> OrderBookPrecisions.Parse
 
     member __.GetTradingStatistics =
@@ -201,19 +202,16 @@ type RestClient(?apiKey: string) =
             "nonce", DateTime.UtcNow.Millisecond.ToString(); 
         ]
 
-        let result = match body with 
-                        | Some b -> Http.RequestString (
-                                                            url,
-                                                            query = q,
-                                                            body = TextRequest b.ToString,
-                                                            headers = headers,
-                                                            httpMethod = method.ToString()
-                                                        )
-                        | None -> Http.RequestString (
-                                                        url,
-                                                        query = q,
-                                                        headers = headers,
-                                                        httpMethod = method.ToString()
-                                                    )
+        let result = 
+            match body with 
+            | Some b -> Http.RequestString (url,
+                                            query = q,
+                                            body = TextRequest b.ToString,
+                                            headers = headers,
+                                            httpMethod = method.ToString())
+            | None -> Http.RequestString (url,
+                                          query = q,
+                                          headers = headers,
+                                          httpMethod = method.ToString())
 
         result
