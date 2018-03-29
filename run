@@ -1,0 +1,37 @@
+#!/bin/bash
+
+
+PAKET="./.paket/paket.exe"
+FAKE="packages/build/FAKE/tools/FAKE.exe"
+
+function __run {
+
+  # First arg
+  given_command=$1
+  # The rest of the args
+  arguments=${@:2}
+
+  # For Sub-command redirection
+  sub_command=$2
+  sub_arguments=${@:3}
+
+
+  # For debugging
+  echo "cmd:  $given_command"
+  echo "args: $arguments"
+
+  case $given_command in
+    p)      ${PAKET} $arguments;;
+    dn)     dotnet $arguments;;
+    paket)  ${PAKET} $arguments;;
+    fake)   ${FAKE} $arguments Fake.fsx;;
+
+    *)
+      echo "command not recognized: $@"
+  esac
+}
+
+# Also allow non-sourced running
+if [ $1 ]; then
+  __run $*
+fi

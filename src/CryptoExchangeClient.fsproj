@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="utils\NumberUtils.fs" />
+    <Compile Include="base_exchange\data\OrderBook.fs" />
+    <Compile Include="base_exchange\data\Currency.fs" />
+    <Compile Include="base_exchange\data\Market.fs" />
+    <Compile Include="base_exchange\data\Order.fs" />
+    <Compile Include="base_exchange\data\Balance.fs" />
+    <Compile Include="base_exchange\client\Parameters.fs" />
+    <Compile Include="base_exchange\client\RestClient.fs" />
+    <Compile Include="base_exchange\client\WebSocketClient.fs" />
+    <Compile Include="exchanges\cobinhood\data\providers\Wallet.fs" />
+    <Compile Include="exchanges\cobinhood\data\providers\Trading.fs" />
+    <Compile Include="exchanges\cobinhood\data\providers\Chart.fs" />
+    <Compile Include="exchanges\cobinhood\data\providers\Market.fs" />
+    <Compile Include="exchanges\cobinhood\data\providers\System.fs" />
+    <Compile Include="exchanges\cobinhood\data\providers\WebSocketV2.fs" />
+    <Compile Include="exchanges\cobinhood\data\transformers\Currencies.fs" />
+    <Compile Include="exchanges\cobinhood\data\transformers\Orders.fs" />
+    <Compile Include="exchanges\cobinhood\data\transformers\Wallets.fs" />
+    <Compile Include="exchanges\cobinhood\data\transformers\Markets.fs" />
+    <Compile Include="exchanges\cobinhood\clients\Parameters.fs" />
+    <Compile Include="exchanges\cobinhood\clients\RestClient.fs" />
+    <Compile Include="exchanges\cobinhood\clients\WebSocketClient.fs" />
+    <Compile Include="Library.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Json" Version="0.3.2" />
+    <PackageReference Include="Paket" Version="5.155.0" />
+    <PackageReference Include="FSharp.Data" Version="2.4.6" />
+    <PackageReference Include="FSharp.Core" Version="4.3.4" />
+    <PackageReference Include="Rationals" Version="1.3.1" />
+    <PackageReference Include="RestSharp" Version="106.2.1" />
+    <PackageReference Include="WebsocketRPC.Standalone" Version="1.0.6" />
+  </ItemGroup>
+</Project>
