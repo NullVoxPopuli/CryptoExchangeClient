@@ -12,7 +12,8 @@ Currently only supports Windows.
 
 <table>
  <tr>
-  <th>[dotnet cli](https://github.com/dotnet/cli)</th><td>
+  <th><a href="https://github.com/dotnet/cli">dotnet cli</a>
+  </th><td>
   
 ```bash
 dotnet add package CryptoExchangeClient
@@ -20,7 +21,7 @@ dotnet add package CryptoExchangeClient
   </td>
  </tr>
  <tr>
-  <th>[paket](https://fsprojects.github.io/Paket/)</th><td>
+ <th><a href="https://fsprojects.github.io/Paket/">paket</a></th><td>
  
 ```bash
 paket add CryptoExchangeClient
