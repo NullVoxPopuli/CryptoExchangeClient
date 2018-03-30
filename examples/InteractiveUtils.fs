@@ -39,7 +39,8 @@ module InteractiveUtils =
     let PrintEntry (entry: string * string * (unit -> unit)): unit =
         let (num, title, _fun) = entry
 
-        Console.WriteLine(num + " )    " + title, optionsColor)
+        let number = num.PadLeft(4)
+        Console.WriteLine(number + " )   " + title, optionsColor)
 
     let FindSelected (selected: string, optionMap: (string * string * (unit -> unit)) list) =
         let finder = NumberEqualsMapEntry(selected)
