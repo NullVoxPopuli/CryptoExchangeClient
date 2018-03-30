@@ -6,7 +6,7 @@
 This Package's goal is to provide a common interface to exchanges' REST and Websocket apis.
 
 Currently only supports Windows.
- - Waiting on `FSharp.Data` and `FSharp.Json` to support dotnetcore before this library can be cross platform
+ - Waiting on [FSharp.Data](https://github.com/fsprojects/FSharp.Data.TypeProviders/issues/16) and [FSharp.Json](https://github.com/vsapronov/FSharp.Json/issues/7) to support dotnetcore before this library can be cross platform
 
 ## Install
 
@@ -42,7 +42,7 @@ paket add CryptoExchangeClient
 ### Current Supported Exchanges
 
  - [Cobinhood](https://cobinhood.com) - [Docs](https://cobinhood.github.io/api-public)
-   - Full Rest API
+   - Full Rest API [Docs: Usage in Demo](https://github.com/NullVoxPopuli/CryptoExchangeClient/blob/master/examples/CobinhoodDemo.fs)
 
 
 ### Coming Soon:
