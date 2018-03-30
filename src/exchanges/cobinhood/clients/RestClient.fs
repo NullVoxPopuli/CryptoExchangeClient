@@ -45,7 +45,7 @@ type RestClient(?apiKey: string) =
     member __.GetCandles (tradingPairId : string) =
         __.Get ("chart/candles/" + tradingPairId)
         |> CandlesResponse.Parse
-   
+
     ////////////////////////////
     // Market
     ////////////////////////////
@@ -150,7 +150,7 @@ type RestClient(?apiKey: string) =
 
         __.Get url
         |> DepositAddressResponse.Parse
-        
+
 
     member __.GetWithdrawalAddresses (?currency: string) =
         let url = match currency with
@@ -178,8 +178,8 @@ type RestClient(?apiKey: string) =
         __.Get "wallet/deposits"
         |> AllDepositsResponse.Parse
 
-    //type Body = 
-    //        | JsonableParameters 
+    //type Body =
+    //        | JsonableParameters
     //        | None
 
     ////////////////////////////////
@@ -193,16 +193,16 @@ type RestClient(?apiKey: string) =
         let q = match query with
                 | Some queryParams -> queryParams
                 | None -> []
-  
+
         let headers = [
             Accept HttpContentTypes.Json;
             ContentType HttpContentTypes.Json;
             "authorization", ApiKey;
-            "nonce", DateTime.UtcNow.Millisecond.ToString(); 
+            "nonce", DateTime.UtcNow.Millisecond.ToString();
         ]
 
-        let result = 
-            match body with 
+        let result =
+            match body with
             | Some b -> Http.RequestString (url,
                                             query = q,
                                             body = TextRequest b.ToString,

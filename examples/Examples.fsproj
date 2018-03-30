@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Chessie" Version="0.6.0" />
     <PackageReference Include="Colorful.Console" Version="1.2.6" />
     <PackageReference Include="FSharp.Data" Version="2.4.6" />
     <PackageReference Include="RestSharp" Version="106.2.1" />

@@ -25,32 +25,32 @@ module CobinhoodDemo =
     let OrderBook () = client.GetOrderBook("ETH-BTC").Result.Orderbook |> printfn "%A"
     let OrderBookPrecision () = client.GetOrderBookPrecisions("ETH-BTC").Result |> printfn "%A"
     let MarketStats () = client.GetTradingStatistics.Result |> printfn "%A"
-    let Ticker () = client.GetTicker("ETH-BTC").Result |> printfn "%A"        
+    let Ticker () = client.GetTicker("ETH-BTC").Result |> printfn "%A"
     let Trades () = client.GetRecentTrades("ETH-BTC").Result |> printfn "%A"
 
     // Auth Endpoints
     let GetOrders () = client.GetOrders |> printfn "%A"
     let GetOrder () =
         PromptFor("Order ID: ")
-        |> client.GetOrder 
+        |> client.GetOrder
         |> printfn "%A"
 
-    let GetTrades () = 
+    let GetTrades () =
         PromptFor("Order ID: ")
-        |> client.GetTrades 
+        |> client.GetTrades
         |> printfn "%A"
 
     let PostOrders () =
         PlaceOrderParameters("ETH-BTC", "buy", "limit", "0.000001", "100")
-        |> client.PlaceOrder 
+        |> client.PlaceOrder
         |> printfn "%A"
 
-    let PutOrder () = 
+    let PutOrder () =
         ModifyOrderParameters("0.000001", "90")
         |> client.ModifyOrder("37f550a202aa6a3fe120f420637c894c")
         |> printfn "%A"
 
-    let CancelOrder () = client.CancelOrder("37f550a202aa6a3fe120f420637c894c") |> printfn "%A"  
+    let CancelOrder () = client.CancelOrder("37f550a202aa6a3fe120f420637c894c") |> printfn "%A"
 
     let GetOrderHistory () = client.GetOrderHistory() |> printfn "%A"
     let GetTrade () = client.GetTrade("09619448-e48a-3bd7-3d49-3a4194f9020b") |> printfn "%A"
@@ -63,12 +63,12 @@ module CobinhoodDemo =
     let GetAllWithdrawals () = client.GetAllWithdrawals() |> printfn "%A"
     let GetDeposit () = client.GetDeposit("62056df2d4cf8fb9b15c7238b89a1438") |> printfn "%A"
     let GetAllDEposits () = client.GetAllDeposits() |> printfn "%A"
-    
+
 
     let optionMap = [
         ("", "Public Endpoints", PlaceholderFn );
         Spacer
-        
+
         ("1", "GET system/time", SystemTime);
         ("2", "GET system/info", SystemInfo);
         ("3", "GET chart/candles/ETH-BTC", Candles);
@@ -79,7 +79,7 @@ module CobinhoodDemo =
         ("8", "GET market/stats", MarketStats);
         ("9", "GET market/tickers/ETH-BTC", Ticker);
         ("10", "GET market/trades/ETH-BTC", Trades);
-        
+
         Spacer
         ("", "Auth Endpoints", PlaceholderFn );
         Spacer

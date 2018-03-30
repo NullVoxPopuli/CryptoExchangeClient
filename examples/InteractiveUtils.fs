@@ -1,4 +1,4 @@
-﻿namespace Examples
+namespace Examples
 
 //#if INTERACTIVE
 //#r "../packages/RestSharp/lib/netstandard2.0/RestSharp.dll"
@@ -10,6 +10,8 @@
 open System
 open System.Drawing
 open Colorful
+open Chessie.ErrorHandling
+
 
 
 module InteractiveUtils =
@@ -26,7 +28,7 @@ module InteractiveUtils =
     //let PromptToContinue =
     //    Console.Write("Continue? (Y|N)");
     //    let key = Console.ReadLine();
-        
+
     //    match key with
     //    | "n" -> Environment.Exit(0)
     //    | "N" -> Environment.Exit(0)
@@ -67,7 +69,7 @@ module InteractiveUtils =
         optionMap |> List.iter PrintEntry
         Console.WriteLine ""
 
-        let key = Console.ReadLine()        
+        let key = Console.ReadLine()
 
         match key with
         | "exit" -> Environment.Exit(0)
@@ -78,15 +80,21 @@ module InteractiveUtils =
             | (s: string * string * (unit -> unit)) -> do
                 let (_num, demoTitle, demo) = s
 
-                WriteHeader demoTitle 
-                demo ()
+                WriteHeader demoTitle
+
+
+                match Trial.Catch demo () with
+                | Bad e -> printfn "%A" e
+                | _ -> ()
+
+
 
                 PromptMenu(title, optionMap)
             | _ -> do
                 Console.WriteLine("Invalid Selection")
                 PromptMenu(title, optionMap)
-                
-        
+
+
     let PromptFor (question: string) =
         Console.WriteLine(question)
         Console.ReadLine()
