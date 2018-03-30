@@ -1,9 +1,34 @@
 # Crypto Exchange Client
 
+
+[![NuGet](https://img.shields.io/nuget/v/CryptoExchangeClient.svg)](https://www.nuget.org/packages/CryptoExchangeClient/)
+
 This Package's goal is to provide a common interface to exchanges' REST and Websocket apis.
 
 Currently only supports Windows.
  - Waiting on `FSharp.Data` and `FSharp.Json` to support dotnetcore before this library can be cross platform
+
+## Install
+
+<table>
+ <tr>
+  <th>[dotnet cli](https://github.com/dotnet/cli)</th><td>
+  
+```bash
+dotnet add package CryptoExchangeClient
+```
+  </td>
+ </tr>
+ <tr>
+  <th>[paket](https://fsprojects.github.io/Paket/)</th><td>
+ 
+```bash
+paket add CryptoExchangeClient
+```
+  </td>
+ </tr>
+</table>
+or
 
 ## Demo
 
