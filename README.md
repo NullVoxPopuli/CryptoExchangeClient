@@ -29,7 +29,6 @@ paket add CryptoExchangeClient
   </td>
  </tr>
 </table>
-or
 
 ## Demo
 
