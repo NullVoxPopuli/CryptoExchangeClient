@@ -4,12 +4,12 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "CryptoExchangeClient", "src\CryptoExchangeClient.fsproj", "{FAFF9443-D721-4482-A6A2-32A9170E58B6}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "CryptoExchangeClient.tests", "tests\CryptoExchangeClient.tests.fsproj", "{9D65E263-E424-459D-A93D-390BC205C6E1}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Test.CryptoExchangeClient", "tests\Test.CryptoExchangeClient\Test.CryptoExchangeClient.fsproj", "{9D65E263-E424-459D-A93D-390BC205C6E1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FAFF9443-D721-4482-A6A2-32A9170E58B6} = {FAFF9443-D721-4482-A6A2-32A9170E58B6}
 	EndProjectSection
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "CryptoExchangeClient.examples", "examples\CryptoExchangeClient.examples.fsproj", "{A54E0030-6322-4CE8-B623-1565D971A072}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Examples", "examples\Examples.fsproj", "{A54E0030-6322-4CE8-B623-1565D971A072}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FAFF9443-D721-4482-A6A2-32A9170E58B6} = {FAFF9443-D721-4482-A6A2-32A9170E58B6}
 	EndProjectSection
@@ -23,9 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		run = run
 	EndProjectSection
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Nuget.FSharp.Test", "Nuget.FSharp.Test\Nuget.FSharp.Test.fsproj", "{69ECC7C5-59A3-42E6-B7D0-55E47ECBF1F6}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Test.Nuget.FSharp", "tests\Test.Nuget.FSharp\Test.Nuget.FSharp.fsproj", "{69ECC7C5-59A3-42E6-B7D0-55E47ECBF1F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nuget.CSharp.Test", "Nuget.CSharp.Test\Nuget.CSharp.Test.csproj", "{C859729D-2FBE-4110-9AE4-EA597E903476}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Nuget.CSharp", "tests\Test.Nuget.CSharp\Test.Nuget.CSharp.csproj", "{C859729D-2FBE-4110-9AE4-EA597E903476}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

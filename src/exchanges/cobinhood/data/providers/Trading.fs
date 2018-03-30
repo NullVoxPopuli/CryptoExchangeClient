@@ -8,7 +8,7 @@ module Trading =
         "result": {
             "order": {
                 "id": "37f550a202aa6a3fe120f420637c894c",
-                "trading_pair": "BTC-USDT",
+                "trading_pair_id": "BTC-USDT",
                 "state": "open",
                 "side": "bid",
                 "type": "limit",
@@ -42,7 +42,7 @@ module Trading =
             "orders": [
                 {
                     "id": "37f550a202aa6a3fe120f420637c894c",
-                    "trading_pair": "BTC-USDT",
+                    "trading_pair_id": "BTC-USDT",
                     "state": "open",
                     "side": "bid",
                     "type": "limit",
@@ -89,7 +89,7 @@ module Trading =
             "order_history": [
                 {
                     "id": "37f550a202aa6a3fe120f420637c894c",
-                    "trading_pair": "BTC-USDT",
+                    "trading_pair_id": "BTC-USDT",
                     "state": "filled",
                     "side": "bid",
                     "type": "limit",

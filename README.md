@@ -9,7 +9,7 @@ Currently only supports Windows.
 
 1. Clone this repo
 2. Open the `CryptoExchangeClient.sln` file
-3. Run the `CryptoExchangeClient.examples` project (default)
+3. Run the `Examples` project (default)
 
 ![The Cobinhood Demo App](https://github.com/NullVoxPopuli/CryptoExchangeClient/blob/master/docs/images/CobinhoodDemo.png?raw=true)
 

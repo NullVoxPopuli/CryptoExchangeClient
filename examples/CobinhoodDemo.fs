@@ -9,10 +9,12 @@ open Examples.InteractiveUtils
 module CobinhoodDemo =
     open CryptoApi.Exchanges.Cobinhood.Parameters
 
-    //let key = PromptFor("for authed apis, an api key is needed. Please paste below or hit enter to skip (and only use public apis)")
-
-    let key = ""
+    let key = System.Environment.GetEnvironmentVariable("COBINHOOD_API_KEY")
     let client = Cobinhood.RestClient(key)
+
+    // Initial things to seed the cache
+    ignore client.GetCurrencies
+    ignore client.GetMarkets
 
     // Public Endpoints
     let SystemTime () = client.GetSystemTime().Result.Time |> printfn "Time: %i"
@@ -28,8 +30,15 @@ module CobinhoodDemo =
 
     // Auth Endpoints
     let GetOrders () = client.GetOrders |> printfn "%A"
-    let GetOrder () = client.GetOrder("37f550a202aa6a3fe120f420637c894c") |> printfn "%A"
-    let GetTrades () = client.GetTrades("37f550a202aa6a3fe120f420637c894c") |> printfn "%A"
+    let GetOrder () =
+        PromptFor("Order ID: ")
+        |> client.GetOrder 
+        |> printfn "%A"
+
+    let GetTrades () = 
+        PromptFor("Order ID: ")
+        |> client.GetTrades 
+        |> printfn "%A"
 
     let PostOrders () =
         PlaceOrderParameters("ETH-BTC", "buy", "limit", "0.000001", "100")
@@ -95,7 +104,7 @@ module CobinhoodDemo =
     ]
 
 
-    let BeginDemo =
+    let BeginDemo () =
         PromptMenu ("The Cobinhood API -- examples", optionMap)
 
 //#if INTERACTIVE

@@ -14,8 +14,8 @@ module Orders =
     let ExtractOrderFromPayload (knownMarkets: Market[]) (payload: TypeOfOrderResponse): Order = 
 
         let symbolFromOrder = match payload with
-                              | OrdersOrder o -> o.TradingPair
-                              | OrderOrder o -> o.TradingPair
+                              | OrdersOrder o -> o.TradingPairId
+                              | OrderOrder o -> o.TradingPairId
 
         let marketEqualsSymbol = fun km -> km.symbol.Equals(symbolFromOrder)
         let market = knownMarkets |> Array.find marketEqualsSymbol

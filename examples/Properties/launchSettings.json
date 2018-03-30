@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Examples": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "COBINHOOD_API_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfdG9rZW5faWQiOiI1M2U0ODYyZi1mZWQwLTQzZDItOTMyMC03N2YyM2I4YWI1YzgiLCJzY29wZSI6WyJzY29wZV9leGNoYW5nZV90cmFkZV9yZWFkIiwic2NvcGVfZXhjaGFuZ2VfbGVkZ2VyX3JlYWQiXSwidXNlcl9pZCI6ImYwMTQ1OWNmLWZhYjAtNGVjMC1iOWVmLTE4YTE0N2ZiMGVmZCJ9.HIoQHKqx65ldoWFVCc_HUzzkoFdsdJW3XbsRneui1lM.V2:d1e2c5bfceece8bc0773449fecf60bd2c21d0b6ea92768988932f5ce0e8856f7",
+        "WRITE_KEY": "NotConfigured"
+      }
+    }
+  }
+}
