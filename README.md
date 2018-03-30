@@ -1,9 +1,34 @@
 # Crypto Exchange Client
 
+
+[![NuGet](https://img.shields.io/nuget/v/CryptoExchangeClient.svg)](https://www.nuget.org/packages/CryptoExchangeClient/)
+
 This Package's goal is to provide a common interface to exchanges' REST and Websocket apis.
 
 Currently only supports Windows.
- - Waiting on `FSharp.Data` and `FSharp.Json` to support dotnetcore before this library can be cross platform
+ - Waiting on [FSharp.Data](https://github.com/fsprojects/FSharp.Data.TypeProviders/issues/16) and [FSharp.Json](https://github.com/vsapronov/FSharp.Json/issues/7) to support dotnetcore before this library can be cross platform
+
+## Install
+
+<table>
+ <tr>
+  <th><a href="https://github.com/dotnet/cli">dotnet cli</a>
+  </th><td>
+  
+```bash
+dotnet add package CryptoExchangeClient
+```
+  </td>
+ </tr>
+ <tr>
+ <th><a href="https://fsprojects.github.io/Paket/">paket</a></th><td>
+ 
+```bash
+paket add CryptoExchangeClient
+```
+  </td>
+ </tr>
+</table>
 
 ## Demo
 
@@ -17,7 +42,7 @@ Currently only supports Windows.
 ### Current Supported Exchanges
 
  - [Cobinhood](https://cobinhood.com) - [Docs](https://cobinhood.github.io/api-public)
-   - Full Rest API
+   - Full Rest API [Docs: Usage in Demo](https://github.com/NullVoxPopuli/CryptoExchangeClient/blob/master/examples/CobinhoodDemo.fs)
 
 
 ### Coming Soon:
