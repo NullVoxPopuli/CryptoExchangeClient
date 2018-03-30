@@ -7,8 +7,12 @@ open CryptoApi.Exchanges
 open Examples.InteractiveUtils
 
 module CobinhoodDemo =
+    open CryptoApi.Exchanges.Cobinhood.Parameters
 
-    let client = Cobinhood.RestClient()
+    //let key = PromptFor("for authed apis, an api key is needed. Please paste below or hit enter to skip (and only use public apis)")
+
+    let key = ""
+    let client = Cobinhood.RestClient(key)
 
     // Public Endpoints
     let SystemTime () = client.GetSystemTime().Result.Time |> printfn "Time: %i"
@@ -27,14 +31,34 @@ module CobinhoodDemo =
     let GetOrder () = client.GetOrder("37f550a202aa6a3fe120f420637c894c") |> printfn "%A"
     let GetTrades () = client.GetTrades("37f550a202aa6a3fe120f420637c894c") |> printfn "%A"
 
+    let PostOrders () =
+        PlaceOrderParameters("ETH-BTC", "buy", "limit", "0.000001", "100")
+        |> client.PlaceOrder 
+        |> printfn "%A"
+
+    let PutOrder () = 
+        ModifyOrderParameters("0.000001", "90")
+        |> client.ModifyOrder("37f550a202aa6a3fe120f420637c894c")
+        |> printfn "%A"
+
+    let CancelOrder () = client.CancelOrder("37f550a202aa6a3fe120f420637c894c") |> printfn "%A"  
+
     let GetOrderHistory () = client.GetOrderHistory() |> printfn "%A"
     let GetTrade () = client.GetTrade("09619448-e48a-3bd7-3d49-3a4194f9020b") |> printfn "%A"
     let GetTradeHistory () = client.GetTradeHistory() |> printfn "%A"
+    let GetBalances () = client.GetBalances |> printfn "%A"
+    let GetLedgerHistory () = client.GetLedgerHistory |> printfn "%A"
+    let GetDepositAddress () = client.GetDepositAddresses() |> printfn "%A"
+    let GetWithdrawalAddress () = client.GetWithdrawalAddresses() |> printfn "%A"
+    let GetWithdrawal () = client.GetWithdrawal("62056df2d4cf8fb9b15c7238b89a1438") |> printfn "%A"
+    let GetAllWithdrawals () = client.GetAllWithdrawals() |> printfn "%A"
+    let GetDeposit () = client.GetDeposit("62056df2d4cf8fb9b15c7238b89a1438") |> printfn "%A"
+    let GetAllDEposits () = client.GetAllDeposits() |> printfn "%A"
     
 
     let optionMap = [
-        ("", "Public Endpoints", (fun () -> ()) );
-        ("", "", (fun () -> ()) );
+        ("", "Public Endpoints", PlaceholderFn );
+        Spacer
         
         ("1", "GET system/time", SystemTime);
         ("2", "GET system/info", SystemInfo);
@@ -47,19 +71,27 @@ module CobinhoodDemo =
         ("9", "GET market/tickers/ETH-BTC", Ticker);
         ("10", "GET market/trades/ETH-BTC", Trades);
         
-        ("", "", (fun () -> ()) );
-        ("", "Auth Endpoints", (fun () -> ()) );
-        ("", "", (fun () -> ()) );
+        Spacer
+        ("", "Auth Endpoints", PlaceholderFn );
+        Spacer
 
         ("11", "GET trading/orders", GetOrders);
         ("12", "GET trading/orders/<id>", GetOrder);
         ("13", "GET trading/orders/<id>/trades", GetTrades);
-        // ("14", "POST trading/orders", PostOrders);
-        // ("15", "PUT trading/orders/<id>", PutOrder);
-        // ("16", "DELETE trading/orders/<id>", CancelOrder);
+        ("14", "POST trading/orders", PostOrders);
+        ("15", "PUT trading/orders/<id>", PutOrder);
+        ("16", "DELETE trading/orders/<id>", CancelOrder);
         ("17", "GET trading/order_history", GetOrderHistory);
         ("18", "GET trading/trades/<id>", GetTrade);
         ("19", "GET trading/trades", GetTradeHistory);
+        ("20", "GET wallet/balances", GetBalances);
+        ("21", "GET wallet/ledger", GetLedgerHistory);
+        ("22", "GET wallet/deposit_addresses", GetDepositAddress);
+        ("23", "GET wallet/withdrawal_addresses", GetWithdrawalAddress);
+        ("24", "GET wallet/withdrawals/<id>", GetWithdrawal);
+        ("25", "GET wallet/withdrawals", GetAllWithdrawals);
+        ("26", "GET wallet/deposits/<id>", GetDeposit);
+        ("27", "GET wallet/deposits", GetAllDEposits);
     ]
 
 

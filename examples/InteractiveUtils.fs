@@ -16,6 +16,7 @@ module InteractiveUtils =
     let titleColor = Color.BlueViolet
     let optionsColor = Color.DarkSlateGray
 
+
     let WriteHeader (text: string) =
         Console.WriteLine ("=============================", titleColor)
         Console.WriteLine (text, titleColor)
@@ -36,11 +37,16 @@ module InteractiveUtils =
 
         num.Equals(number)
 
+
+    let PlaceholderFn () = ()
+    let Spacer =
+        ("", "", PlaceholderFn)
+
     let PrintEntry (entry: string * string * (unit -> unit)): unit =
         let (num, title, _fun) = entry
 
         let number = num.PadLeft(4)
-        Console.WriteLine(number + " )   " + title, optionsColor)
+        Console.WriteLine(number + "    " + title, optionsColor)
 
     let FindSelected (selected: string, optionMap: (string * string * (unit -> unit)) list) =
         let finder = NumberEqualsMapEntry(selected)
@@ -81,3 +87,6 @@ module InteractiveUtils =
                 PromptMenu(title, optionMap)
                 
         
+    let PromptFor (question: string) =
+        Console.WriteLine(question)
+        Console.ReadLine()

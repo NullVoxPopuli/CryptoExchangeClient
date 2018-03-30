@@ -11,6 +11,8 @@ Currently only supports Windows.
 2. Open the `CryptoExchangeClient.sln` file
 3. Run the `CryptoExchangeClient.examples` project (default)
 
+![The Cobinhood Demo App](./docs/images/CobinhoodDemo.png)
+
 
 ### Current Supported Exchanges
 

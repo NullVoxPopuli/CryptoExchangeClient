@@ -110,7 +110,7 @@ type RestClient(?apiKey: string) =
         |> PlaceOrderResponse.Parse
         |> ExtractOrder(KnownMarkets)
 
-    member __.ModifyOrder (id: string, body: ModifyOrderParameters) =
+    member __.ModifyOrder (id: string) (body: ModifyOrderParameters) =
         __.Put ("trading/orders/" + id, body)
         |> ModifyOrderResponse.Parse
 
@@ -165,7 +165,7 @@ type RestClient(?apiKey: string) =
         __.Get ("wallet/withdrawals/" + id)
         |> WithdrawalResponse.Parse
 
-    member __.GetAllWithdrawals (id: string) =
+    member __.GetAllWithdrawals (?id: string) =
         __.Get "wallet/withdrawals"
         |> AllWithdrawalsResponse.Parse
 
@@ -174,7 +174,7 @@ type RestClient(?apiKey: string) =
         __.Get ("wallet/deposits/" + id)
         |> DepositResponse.Parse
 
-    member __.GetAllDeposits (id: string) =
+    member __.GetAllDeposits (?id: string) =
         __.Get "wallet/deposits"
         |> AllDepositsResponse.Parse
 

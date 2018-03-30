@@ -6,35 +6,35 @@ open Rationals
 open CryptoApi.BaseExchange.Client.Parameters
 
 
-type PlaceOrderParameters = 
-    inherit JsonableParameters
+type PlaceOrderParameters(id, side, typeOfOrder, price, size) = 
+    inherit JsonableParameters()
 
-    member __.tradingPairId: string = ""
-    member __.side: string = ""
-    member __.typeOfOrder: string = ""
-    member __.price: Rational = Rational.Approximate 0.0
-    member __.size: Rational = Rational.Approximate 0.0
+    member __.tradingPairId: string = id
+    member __.side: string = side
+    member __.typeOfOrder: string = typeOfOrder
+    member __.price: string = price
+    member __.size: string = size
 
     override __.ToString =
         Map.ofList [ 
             "trading_pair_id", __.tradingPairId
             "side", __.side
             "type", __.typeOfOrder
-            "price", __.price.ToString()
-            "size", __.size.ToString()
+            "price", __.price
+            "size", __.size
         ]
         |> Json.serialize
 
 
-type ModifyOrderParameters =
-    inherit JsonableParameters
+type ModifyOrderParameters(price, size) =
+    inherit JsonableParameters()
 
-    member __.price: Rational = Rational.Approximate 0.0
-    member __.size: Rational = Rational.Approximate 0.0
+    member __.price: string = price
+    member __.size: string = size
 
     override __.ToString =
         Map.ofList [
-            "price", __.price.ToString()
-            "size", __.size.ToString()
+            "price", __.price
+            "size", __.size
         ]
         |> Json.serialize
