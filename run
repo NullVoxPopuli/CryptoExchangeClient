@@ -26,6 +26,19 @@ function __run {
     paket)  ${PAKET} $arguments;;
     fake)   ${FAKE} $arguments Fake.fsx;;
 
+    release)
+      local version=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' src/CryptoExchangeClient.fsproj)
+
+      echo ""
+      echo "Releasing v. $version"
+      echo ""
+
+      dotnet pack src/CryptoExchangeClient.fsproj && \
+      dotnet nuget push src/bin/Debug/CryptoExchangeClient.$version.nupkg \
+        -k $NUGET_KEY \
+        -s https://api.nuget.org/v3/index.json
+    ;;
+
     *)
       echo "command not recognized: $@"
   esac
