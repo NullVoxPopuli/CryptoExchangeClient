@@ -60,10 +60,10 @@ paket add CryptoExchangeClient
 ### Docs
 #### Packages Used
 
-[FSharp.Data](http://fsharp.github.io/FSharp.Data/)
-[FSharp.Json](https://github.com/vsapronov/FSharp.Json)
-[Rationals](https://github.com/tompazourek/Rationals)
-[RestSharp](http://restsharp.org/)
+- [FSharp.Data](http://fsharp.github.io/FSharp.Data/)
+- [FSharp.Json](https://github.com/vsapronov/FSharp.Json)
+- [Rationals](https://github.com/tompazourek/Rationals)
+- [RestSharp](http://restsharp.org/)
 
 
 ### Getting Started
