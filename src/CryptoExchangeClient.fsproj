@@ -34,7 +34,6 @@
     <Compile Include="exchanges\cobinhood\clients\Parameters.fs" />
     <Compile Include="exchanges\cobinhood\clients\RestClient.fs" />
     <Compile Include="exchanges\cobinhood\clients\WebSocketClient.fs" />
-    <Compile Include="Library.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FSharp.Json" Version="0.3.2" />
