@@ -55,7 +55,9 @@ paket add CryptoExchangeClient
 
 ### Recommended Visual Studio Extensions
 
-[Paket](https://marketplace.visualstudio.com/items?itemName=SteffenForkmann.PaketforVisualStudio)
+ - [Paket](https://marketplace.visualstudio.com/items?itemName=SteffenForkmann.PaketforVisualStudio)
+ - [Trailing Whitespace Visualizer](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.TrailingWhitespaceVisualizer)
+ - [Viasfora](https://marketplace.visualstudio.com/items?itemName=TomasRestrepo.Viasfora)
 
 ### Docs
 #### Packages Used
