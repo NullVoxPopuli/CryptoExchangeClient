@@ -40,16 +40,20 @@ module CobinhoodDemo =
         |> client.GetTrades
         |> printfn "%A"
 
+    // NOTE: this is a fairly safe buy/bid order to place. (at the time of writing this ETH-BTC is ~ 0.56)
     let PostOrders () =
         PlaceOrderParameters("ETH-BTC", "bid", "limit", "0.00001", "100")
         |> client.PlaceOrder
         |> printfn "%A"
 
+
+    // NOTE: this may error, because the order id may not belong to you
     let PutOrder () =
         ModifyOrderParameters("0.00001", "90")
         |> client.ModifyOrder("37f550a202aa6a3fe120f420637c894c")
         |> printfn "%A"
 
+    // NOTE: this may error, because the order id may not belong to you
     let CancelOrder () = client.CancelOrder("37f550a202aa6a3fe120f420637c894c") |> printfn "%A"
 
     let GetOrderHistory () = client.GetOrderHistory() |> printfn "%A"
