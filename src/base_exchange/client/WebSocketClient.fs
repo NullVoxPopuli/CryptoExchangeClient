@@ -5,11 +5,11 @@ open System.Collections.Generic
 open CryptoApi.Data
 open SimpleJson
 open System
-
-type public IWebSocketClient =
-    abstract member connect: unit -> unit
+open PureWebSockets
 
 // All Rest Clients should extend this class
 [<AbstractClass>]
-type public AbstractWebSocketClient(baseUrl: string) =
-    member __.connect = raise (NotImplementedException())
+type public AbstractWebSocketClient(url: string) =
+    member __.url = url
+
+    abstract member Connect : PureWebSocket
