@@ -1,4 +1,4 @@
-﻿namespace Examples
+namespace Examples
 
 //#if INTERACTIVE
 //#load "./InteractiveUtils.fsx"
@@ -41,12 +41,12 @@ module CobinhoodDemo =
         |> printfn "%A"
 
     let PostOrders () =
-        PlaceOrderParameters("ETH-BTC", "buy", "limit", "0.000001", "100")
+        PlaceOrderParameters("ETH-BTC", "bid", "limit", "0.00001", "100")
         |> client.PlaceOrder
         |> printfn "%A"
 
     let PutOrder () =
-        ModifyOrderParameters("0.000001", "90")
+        ModifyOrderParameters("0.00001", "90")
         |> client.ModifyOrder("37f550a202aa6a3fe120f420637c894c")
         |> printfn "%A"
 

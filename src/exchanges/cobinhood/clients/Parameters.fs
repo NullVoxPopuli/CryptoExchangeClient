@@ -1,4 +1,4 @@
-﻿namespace CryptoApi.Exchanges.Cobinhood.Parameters
+namespace CryptoApi.Exchanges.Cobinhood.Parameters
 
 open FSharp.Json
 open Rationals
@@ -6,7 +6,7 @@ open Rationals
 open CryptoApi.BaseExchange.Client.Parameters
 
 
-type PlaceOrderParameters(id, side, typeOfOrder, price, size) = 
+type PlaceOrderParameters(id, side, typeOfOrder, price, size) =
     inherit JsonableParameters()
 
     member __.tradingPairId: string = id
@@ -16,7 +16,7 @@ type PlaceOrderParameters(id, side, typeOfOrder, price, size) =
     member __.size: string = size
 
     override __.ToString =
-        Map.ofList [ 
+        Map.ofList [
             "trading_pair_id", __.tradingPairId
             "side", __.side
             "type", __.typeOfOrder

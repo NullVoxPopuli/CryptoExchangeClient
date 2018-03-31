@@ -30,6 +30,9 @@ type RestClient(?apiKey: string) =
                  | Some a -> a
                  | None -> ""
 
+    let nonceIncrement = int64 1
+    let mutable lastNonce: int64 = int64 0
+
     let mutable KnownMarkets: Market[] = Array.empty<Market>
     let mutable Currencies: Currency[] = Array.empty<Currency>
 
@@ -185,6 +188,18 @@ type RestClient(?apiKey: string) =
     ////////////////////////////////
     // HTTP / How to make a request
     ////////////////////////////////
+    member __.GetNonce =
+        let previousNonce = lastNonce
+
+        lastNonce <- DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+
+        if lastNonce <= previousNonce
+        then lastNonce <- lastNonce + nonceIncrement
+
+        lastNonce
+
+
+
     // TODO: determine offset automatically
     //       for when client machine's time is out of sync with server
     override __.MakeRequest (path, method, ?query: (string * string) list, ?body: JsonableParameters) =
@@ -194,20 +209,25 @@ type RestClient(?apiKey: string) =
                 | Some queryParams -> queryParams
                 | None -> []
 
+        let nonce = __.GetNonce
+
         let headers = [
             Accept HttpContentTypes.Json;
             ContentType HttpContentTypes.Json;
             "authorization", ApiKey;
-            "nonce", DateTime.UtcNow.Millisecond.ToString();
+            "nonce", nonce.ToString();
         ]
 
         let result =
             match body with
-            | Some b -> Http.RequestString (url,
-                                            query = q,
-                                            body = TextRequest b.ToString,
-                                            headers = headers,
-                                            httpMethod = method.ToString())
+            | Some b ->
+                let bodyString = b.ToString
+
+                Http.RequestString (url,
+                                    query = q,
+                                    body = TextRequest bodyString,
+                                    headers = headers,
+                                    httpMethod = method.ToString())
             | None -> Http.RequestString (url,
                                           query = q,
                                           headers = headers,
