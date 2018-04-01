@@ -8,9 +8,12 @@ open Examples.InteractiveUtils
 
 module CobinhoodDemo =
     open CryptoApi.Exchanges.Cobinhood.Parameters
+    open CryptoApi.Exchange.Cobinhood.Parameters.SocketParams
 
     let key = System.Environment.GetEnvironmentVariable("COBINHOOD_API_KEY")
     let client = Cobinhood.RestClient(key)
+
+    let socket = Cobinhood.WebSocketClient()
 
     // Initial things to seed the cache
     ignore client.GetCurrencies
@@ -42,14 +45,14 @@ module CobinhoodDemo =
 
     // NOTE: this is a fairly safe buy/bid order to place. (at the time of writing this ETH-BTC is ~ 0.56)
     let PostOrders () =
-        PlaceOrderParameters("ETH-BTC", "bid", "limit", "0.00001", "100")
+        RestParams.PlaceOrder("ETH-BTC", "bid", "limit", "0.00001", "100")
         |> client.PlaceOrder
         |> printfn "%A"
 
 
     // NOTE: this may error, because the order id may not belong to you
     let PutOrder () =
-        ModifyOrderParameters("0.00001", "90")
+        RestParams.ModifyOrder("0.00001", "90")
         |> client.ModifyOrder("37f550a202aa6a3fe120f420637c894c")
         |> printfn "%A"
 
@@ -68,6 +71,14 @@ module CobinhoodDemo =
     let GetDeposit () = client.GetDeposit("62056df2d4cf8fb9b15c7238b89a1438") |> printfn "%A"
     let GetAllDEposits () = client.GetAllDeposits() |> printfn "%A"
 
+
+    let SocketOrderBook () =
+        socket.Connect
+        // Precision could be retrieved from <#RestClient>.GetOrderBookPrecision
+        socket.SubscribeTo(ChannelType.OrderBook, symbol = "ETH-BTC", precision = "1E-7")
+        //socket.OnReceiveOrderBookUpdate (fun payload ->
+        //    payload |> printfn "%A"
+        //)
 
     let optionMap = [
         ("", "Public Endpoints", PlaceholderFn );
@@ -105,6 +116,12 @@ module CobinhoodDemo =
         ("25", "GET wallet/withdrawals", GetAllWithdrawals);
         ("26", "GET wallet/deposits/<id>", GetDeposit);
         ("27", "GET wallet/deposits", GetAllDEposits);
+
+        Spacer
+        ("", "WebSocket", PlaceholderFn );
+        Spacer
+
+        ("28", "OrderBook for ETH-BTC", SocketOrderBook);
     ]
 
 

@@ -108,12 +108,12 @@ type RestClient(?apiKey: string) =
         __.Get ("trading/orders/" + id + "/trades")
         |> GetOrderTradesResponse.Parse
 
-    member __.PlaceOrder (body: PlaceOrderParameters) =
+    member __.PlaceOrder (body: RestParams.PlaceOrder) =
         __.Post ("trading/orders", body)
         |> PlaceOrderResponse.Parse
         |> ExtractOrder(KnownMarkets)
 
-    member __.ModifyOrder (id: string) (body: ModifyOrderParameters) =
+    member __.ModifyOrder (id: string) (body: RestParams.ModifyOrder) =
         __.Put ("trading/orders/" + id, body)
         |> ModifyOrderResponse.Parse
 

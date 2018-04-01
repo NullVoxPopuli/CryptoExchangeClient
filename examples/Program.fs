@@ -1,16 +1,16 @@
-﻿namespace Examples
+namespace Examples
 
 open Examples
 open InteractiveUtils
 
-module Program =  
+module Program =
      [<EntryPoint>]
      let Main(args) =
-         
+
 
          let optionMap = [
             ("1", "Cobinhood", CobinhoodDemo.BeginDemo);
-            
+
             Spacer;
             ("", "Others Coming Soon", PlaceholderFn);
          ]
