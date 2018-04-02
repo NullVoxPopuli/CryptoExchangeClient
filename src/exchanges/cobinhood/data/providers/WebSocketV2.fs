@@ -117,7 +117,7 @@ module WebSocketV2 =
                 ["0.247","1","6872.221"]
             ]
         }
-    }""">
+    }""", InferTypesFromValues = false>
 
     type Trade = JsonProvider<"""{
         "h": ["trade.COB-ETH", "2", "u"],
