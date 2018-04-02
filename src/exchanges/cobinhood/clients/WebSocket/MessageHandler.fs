@@ -44,8 +44,6 @@ module MessageHandler =
             book.Asks.[price] <- value
 
         PrintOrderBook.ToConsole(market)
-        payload
-        |> printfn "%A"
 
 
     let HandleMessage (value: string) =
@@ -76,5 +74,8 @@ module MessageHandler =
         | _ ->
             match messageType with
             | "pong" -> ()
-            | "error" -> ()
+            | "error" ->
+                payload
+                |> printfn "error: %A"
+                ()
             | _ -> raise (UnknownMessageType(value))

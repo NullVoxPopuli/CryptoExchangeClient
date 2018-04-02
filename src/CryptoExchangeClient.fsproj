@@ -12,6 +12,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="utils\CollectionUtils.fs" />
     <Compile Include="utils\AsyncUtils.fs" />
     <Compile Include="utils\NumberUtils.fs" />
     <Compile Include="base_exchange\data\OrderBook.fs" />
