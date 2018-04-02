@@ -8,7 +8,7 @@ module OrderBook =
     open System.Collections.Generic
 
     let IsSnapshot (payload: WebSocketV2.OrderBook.Root): bool =
-        payload.H.Strings.[2].Equals("u")
+        payload.H.[2].Equals("u")
 
     let ExtractOrderBookMessage (payload: WebSocketV2.OrderBook.Root): OrderBookUpdate =
         let payloadAsks = payload.D.Asks
