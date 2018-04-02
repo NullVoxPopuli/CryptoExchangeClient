@@ -8,7 +8,7 @@ open Examples.InteractiveUtils
 
 module CobinhoodDemo =
     open CryptoApi.Exchanges.Cobinhood.Parameters
-    open CryptoApi.Exchange.Cobinhood.Parameters.SocketParams
+    open CryptoApi.Exchanges.Cobinhood.Parameters.SocketParams
 
     let key = System.Environment.GetEnvironmentVariable("COBINHOOD_API_KEY")
     let client = Cobinhood.RestClient(key)
@@ -75,8 +75,8 @@ module CobinhoodDemo =
     let SocketOrderBook () =
         socket.Connect
         // Precision could be retrieved from <#RestClient>.GetOrderBookPrecision
-        socket.SubscribeTo(ChannelType.OrderBook, symbol = "ETH-BTC", precision = "1E-7")
-        //socket.OnReceiveOrderBookUpdate (fun payload ->
+        socket.SubscribeTo(ChannelType.OrderBook, symbol = "COB-ETH", precision = "1E-7")
+        //socket.OnReceiveOrderBookUpdate = (fun payload ->
         //    payload |> printfn "%A"
         //)
 
@@ -121,7 +121,7 @@ module CobinhoodDemo =
         ("", "WebSocket", PlaceholderFn );
         Spacer
 
-        ("28", "OrderBook for ETH-BTC", SocketOrderBook);
+        ("28", "OrderBook for COB-ETH", SocketOrderBook);
     ]
 
 

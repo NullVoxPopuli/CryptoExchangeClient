@@ -1,4 +1,4 @@
-namespace CryptoApi.Exchange.Cobinhood.Parameters
+namespace CryptoApi.Exchanges.Cobinhood.Parameters
 
 open FSharp.Json
 

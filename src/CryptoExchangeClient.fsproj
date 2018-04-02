@@ -22,18 +22,21 @@
     <Compile Include="base_exchange\client\Parameters.fs" />
     <Compile Include="base_exchange\client\RestClient.fs" />
     <Compile Include="base_exchange\client\WebSocketClient.fs" />
+    <Compile Include="exchanges\cobinhood\Cache.fs" />
     <Compile Include="exchanges\cobinhood\data\providers\Wallet.fs" />
     <Compile Include="exchanges\cobinhood\data\providers\Trading.fs" />
     <Compile Include="exchanges\cobinhood\data\providers\Chart.fs" />
     <Compile Include="exchanges\cobinhood\data\providers\Market.fs" />
     <Compile Include="exchanges\cobinhood\data\providers\System.fs" />
     <Compile Include="exchanges\cobinhood\data\providers\WebSocketV2.fs" />
+    <Compile Include="exchanges\cobinhood\data\transformers\WebSocket\OrderBook.fs" />
     <Compile Include="exchanges\cobinhood\data\transformers\Currencies.fs" />
     <Compile Include="exchanges\cobinhood\data\transformers\Orders.fs" />
     <Compile Include="exchanges\cobinhood\data\transformers\Wallets.fs" />
     <Compile Include="exchanges\cobinhood\data\transformers\Markets.fs" />
     <Compile Include="exchanges\cobinhood\clients\Parameters\SocketParams.fs" />
     <Compile Include="exchanges\cobinhood\clients\Parameters\RestParams.fs" />
+    <Compile Include="exchanges\cobinhood\clients\WebSocket\MessageHandler.fs" />
     <Compile Include="exchanges\cobinhood\clients\RestClient.fs" />
     <Compile Include="exchanges\cobinhood\clients\WebSocketClient.fs" />
   </ItemGroup>

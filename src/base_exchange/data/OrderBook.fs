@@ -1,11 +1,20 @@
-﻿namespace CryptoApi.Data
+namespace CryptoApi.Data
 
-type public OrderBookEntry = {
-    price: string;
-    size: string;
+open System.Collections.Generic
+open Rationals
+
+type OrderBookEntry = {
+    Price: string
+    AmountAtPrice: Rational
+}
+
+type OrderBookUpdate = {
+    IsSnapshot: bool
+    Bids: OrderBookEntry[]
+    Asks: OrderBookEntry[]
 }
 
 type public OrderBook = {
-    bids: OrderBookEntry[];
-    asks: OrderBookEntry[];
+    Bids: Dictionary<string, Rational>
+    Asks: Dictionary<string, Rational>
 }

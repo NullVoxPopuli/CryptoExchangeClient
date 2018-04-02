@@ -1,11 +1,11 @@
-﻿namespace CryptoApi.Data
+namespace CryptoApi.Data
 
 
 // BASE-QUOTE
 type public Market = {
-    symbol: string;
-    quoteCurrency: string;
-    baseCurrency: string;
+    Symbol: string;
+    QuoteCurrency: string;
+    BaseCurrency: string;
 
-    book: OrderBook;
+    Book: OrderBook;
 }
