@@ -44,6 +44,8 @@ module MessageHandler =
             book.Asks.[price] <- value
 
         PrintOrderBook.ToConsole(market)
+        payload
+        |> printfn "%A"
 
 
     let HandleMessage (value: string) =
