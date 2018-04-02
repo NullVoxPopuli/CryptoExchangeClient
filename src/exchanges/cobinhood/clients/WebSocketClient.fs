@@ -66,6 +66,10 @@ type WebSocketClient() =
         client.add_OnOpened (fun () -> __.OnOpen() )
 
         client.add_OnMessage (fun x -> __.OnMessage(x) )
+        client.add_OnError (fun x -> x |> printfn "error: %A")
+        client.add_OnFatality (fun x -> x |> printfn "fatality: %A")
+        //client.add_OnStateChanged (fun x -> x |> printfn "statechange: %A")
+
         //client.add_OnSendFailed (fun () -> __.OnSendFailed() )
 
         client.Connect()
