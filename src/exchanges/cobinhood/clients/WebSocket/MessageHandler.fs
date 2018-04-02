@@ -39,6 +39,17 @@ module MessageHandler =
             book.Bids.[price] = value
 
         for ask in asks do
+            let price = ask.Price
+            let count = ask.AmountAtPrice
+
+            let keyExists = book.Asks.ContainsKey(price)
+            let oldAmount = if keyExists then book.Asks.[price] else Rational.Zero
+
+
+            let newValue = Rational.Parse(count)
+            let value = if payload.IsSnapshot then newValue else oldAmount + newValue
+
+            book.Asks.[price] = value
 
 
         printfn "%A" marketPair

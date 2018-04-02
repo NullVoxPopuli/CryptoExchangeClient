@@ -2,8 +2,10 @@ namespace CryptoApi.Exchanges.Cobinhood.Data.Transformers.WebSocket
 
 
 module OrderBook =
+    open Rationals
     open CryptoApi.Data
     open CryptoApi.Exchanges.Cobinhood.Data.Providers
+    open System.Collections.Generic
 
     let IsSnapshot (payload: WebSocketV2.OrderBook.Root): bool =
         payload.H.Strings.[2].Equals("u")
@@ -12,11 +14,24 @@ module OrderBook =
         let payloadAsks = payload.D.Asks
         let payloadBids = payload.D.Bids
 
-        let bids = Array.empty<OrderBookEntry>
-        let asks = Array.empty<OrderBookEntry>
+        let bids = new List<OrderBookEntry>()
+        let asks = new List<OrderBookEntry>()
+
+        for payloadAsk in payloadAsks do
+            asks.Add {
+                Price = payloadAsk.[0]
+                AmountAtPrice = Rational.Parse(payloadAsk.[2])
+            }
+
+        for payloadBid in payloadBids do
+            bids.Add {
+                Price = payloadBid.[0]
+                AmountAtPrice = Rational.Parse(payloadBid.[2])
+            }
+
 
         {
             IsSnapshot = IsSnapshot(payload)
-            Bids = bids
-            Asks = asks
+            Bids = bids.ToArray()
+            Asks = asks.ToArray()
         }
