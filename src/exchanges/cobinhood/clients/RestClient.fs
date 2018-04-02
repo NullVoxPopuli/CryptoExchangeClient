@@ -93,12 +93,12 @@ type RestClient(?apiKey: string) =
     override __.GetOrders =
         __.Get "trading/orders"
         |> GetAllOrdersResponse.Parse
-        |> ExtractOrders(KnownMarkets)
+        |> ExtractOrders(CobinhoodCache.GetMarkets)
 
     member __.GetOrder (id: string) =
         __.Get ("trading/orders/" + id)
         |> GetOrderResponse.Parse
-        |> ExtractOrder(KnownMarkets)
+        |> ExtractOrder(CobinhoodCache.GetMarkets)
 
     member __.GetTrades (id: string) =
         __.Get ("trading/orders/" + id + "/trades")
@@ -107,7 +107,7 @@ type RestClient(?apiKey: string) =
     member __.PlaceOrder (body: RestParams.PlaceOrder) =
         __.Post ("trading/orders", body)
         |> PlaceOrderResponse.Parse
-        |> ExtractOrder(KnownMarkets)
+        |> ExtractOrder(CobinhoodCache.GetMarkets)
 
     member __.ModifyOrder (id: string) (body: RestParams.ModifyOrder) =
         __.Put ("trading/orders/" + id, body)

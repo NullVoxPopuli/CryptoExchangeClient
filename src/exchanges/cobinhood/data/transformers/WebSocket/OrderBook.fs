@@ -20,13 +20,13 @@ module OrderBook =
         for payloadAsk in payloadAsks do
             asks.Add {
                 Price = payloadAsk.[0]
-                AmountAtPrice = Rational.Parse(payloadAsk.[2])
+                AmountAtPrice = Rational.ParseDecimal(payloadAsk.[2])
             }
 
         for payloadBid in payloadBids do
             bids.Add {
                 Price = payloadBid.[0]
-                AmountAtPrice = Rational.Parse(payloadBid.[2])
+                AmountAtPrice = Rational.ParseDecimal(payloadBid.[2])
             }
 
 

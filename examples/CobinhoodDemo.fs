@@ -75,7 +75,7 @@ module CobinhoodDemo =
     let SocketOrderBook () =
         socket.Connect
         // Precision could be retrieved from <#RestClient>.GetOrderBookPrecision
-        socket.SubscribeTo(ChannelType.OrderBook, symbol = "COB-ETH", precision = "1E-7")
+        socket.SubscribeTo(ChannelType.OrderBook, symbol = "BOT-ETH", precision = "1E-7")
         //socket.OnReceiveOrderBookUpdate = (fun payload ->
         //    payload |> printfn "%A"
         //)

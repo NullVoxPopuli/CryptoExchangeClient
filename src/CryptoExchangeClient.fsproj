@@ -22,6 +22,7 @@
     <Compile Include="base_exchange\client\Parameters.fs" />
     <Compile Include="base_exchange\client\RestClient.fs" />
     <Compile Include="base_exchange\client\WebSocketClient.fs" />
+    <Compile Include="debug\PrintOrderBook.fs" />
     <Compile Include="exchanges\cobinhood\Cache.fs" />
     <Compile Include="exchanges\cobinhood\data\providers\Wallet.fs" />
     <Compile Include="exchanges\cobinhood\data\providers\Trading.fs" />

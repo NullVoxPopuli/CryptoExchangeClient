@@ -151,12 +151,7 @@ module WebSocketV2 =
             ]
     }""">
 
-    let ChannelStartsWith (payloadString: string, startsWith: string): Option<string> =
-        let payload = payloadString |> Payload.Parse
-        let header = payload.H
-
-        let channel = header.[0]
-
+    let ChannelStartsWith (channel: string, startsWith: string): Option<string> =
         if channel.StartsWith(startsWith)
         then Some(channel)
         else None
@@ -166,7 +161,7 @@ module WebSocketV2 =
         match ChannelStartsWith(payload, "order-book") with
         | None -> None
         | Some channel ->
-            let channelParts = channel.Split [|' '|]
+            let channelParts = channel.Split [|'.'|]
             let channelName = channelParts.[0]
             let pair = channelParts.[1]
             let precision = channelParts.[2]
@@ -177,7 +172,7 @@ module WebSocketV2 =
         match ChannelStartsWith(payload, "trade") with
         | None -> None
         | Some channel ->
-            let channelParts = channel.Split [|' '|]
+            let channelParts = channel.Split [|'.'|]
             let channelName = channelParts.[0]
             let pair = channelParts.[1]
 
@@ -188,7 +183,7 @@ module WebSocketV2 =
         match ChannelStartsWith(payload, "ticker") with
         | None -> None
         | Some channel ->
-            let channelParts = channel.Split [|' '|]
+            let channelParts = channel.Split [|'.'|]
             let channelName = channelParts.[0]
             let pair = channelParts.[1]
 

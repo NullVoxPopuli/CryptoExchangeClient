@@ -6,9 +6,11 @@ exception UnknownMessageType of string
 
 module MessageHandler =
     open CryptoApi.Exchanges.Cobinhood.Data.Providers
+    open CryptoApi.Exchanges.Cobinhood.Data.Transformers
     open CryptoApi.Exchanges.Cobinhood
     open Rationals
     open CryptoApi.Data
+    open CryptoApi.Debug
 
     let UpdateOrderBook (marketPair: string) (payload: OrderBookUpdate) =
         let market = CobinhoodCache.GetMarket(marketPair)
@@ -17,52 +19,41 @@ module MessageHandler =
         let bids = payload.Bids
         let asks = payload.Asks
 
-      //const { price, count } = ask;
-      //const oldCount = this.asks[ask.price];
-
-      //const newValue = new Decimal(count || 0);
-      //const value = isSnapshot ? newValue : (oldCount || zero).plus(newValue);
-
-      //this.asks[ask.price] = value;
-
         for bid in bids do
             let price = bid.Price
-            let count = bid.AmountAtPrice
+            let amount = bid.AmountAtPrice
 
             let keyExists = book.Bids.ContainsKey(price)
             let oldAmount = if keyExists then book.Bids.[price] else Rational.Zero
 
 
-            let newValue = Rational.Parse(count)
-            let value = if payload.IsSnapshot then newValue else oldAmount + newValue
+            let value = if payload.IsSnapshot then amount else oldAmount + amount
 
-            book.Bids.[price] = value
+            book.Bids.[price] <- value
 
         for ask in asks do
             let price = ask.Price
-            let count = ask.AmountAtPrice
+            let amount = ask.AmountAtPrice
 
             let keyExists = book.Asks.ContainsKey(price)
             let oldAmount = if keyExists then book.Asks.[price] else Rational.Zero
 
 
-            let newValue = Rational.Parse(count)
-            let value = if payload.IsSnapshot then newValue else oldAmount + newValue
+            let value = if payload.IsSnapshot then amount else oldAmount + amount
 
-            book.Asks.[price] = value
+            book.Asks.[price] <- value
 
+        PrintOrderBook.ToConsole(market)
 
-        printfn "%A" marketPair
 
     let HandleMessage (value: string) =
         let payload = value |> WebSocketV2.Payload.Parse
         let channelName = payload.H.[0]
-        let messageType = payload.H.[1]
+        let messageType = payload.H.[2]
 
 
 
         match channelName with
-        | _ -> raise (UnknownChannelType(value))
         | "order" ->
             value
             |> WebSocketV2.Order.Parse
@@ -70,6 +61,7 @@ module MessageHandler =
         | WebSocketV2.IsOrderBook (_, pair, _precision) ->
             value
             |> WebSocketV2.OrderBook.Parse
+            |> WebSocket.OrderBook.ExtractOrderBookMessage
             |> UpdateOrderBook pair
         | WebSocketV2.IsTrade (_, pair) ->
             value
@@ -79,8 +71,8 @@ module MessageHandler =
             value
             |> WebSocketV2.Ticker.Parse
             |> ignore
-        | "" ->
+        | _ ->
             match messageType with
-            | _ -> raise (UnknownMessageType(value))
             | "pong" -> ()
             | "error" -> ()
+            | _ -> raise (UnknownMessageType(value))

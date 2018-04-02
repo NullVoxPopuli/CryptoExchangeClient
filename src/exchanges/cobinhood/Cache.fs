@@ -14,6 +14,9 @@ type CobinhoodCache() =
     static member SetMarkets (markets: Market[]) =
         KnownMarkets <- markets
 
+    static member GetCurrencies = Currencies
+    static member GetMarkets = KnownMarkets
+
     static member GetMarket (pair: string): Market =
         KnownMarkets
         |> Array.find (fun market -> market.Symbol.Equals(pair))
