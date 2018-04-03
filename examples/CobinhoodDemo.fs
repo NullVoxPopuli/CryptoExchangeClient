@@ -75,53 +75,53 @@ module CobinhoodDemo =
     let SocketOrderBook () =
         socket.Connect
         // Precision could be retrieved from <#RestClient>.GetOrderBookPrecision
-        socket.SubscribeTo(ChannelType.OrderBook, symbol = "BOT-ETH", precision = "1E-7")
+        socket.SubscribeTo(ChannelType.OrderBook, symbol = "COB-ETH", precision = "1E-7")
         //socket.OnReceiveOrderBookUpdate = (fun payload ->
         //    payload |> printfn "%A"
         //)
 
     let optionMap = [
-        ("", "Public Endpoints", PlaceholderFn );
+        ("", "Public Endpoints", PlaceholderFn )
         Spacer
 
-        ("1", "GET system/time", SystemTime);
-        ("2", "GET system/info", SystemInfo);
-        ("3", "GET chart/candles/ETH-BTC", Candles);
-        ("4", "GET market/trading_pairs", Markets);
-        ("5", "GET market/currencies", Currencies);
-        ("6", "GET market/orderbooks/ETH-BTC", OrderBook);
-        ("7", "GET market/orderbook/precisions/ETH-BTC", OrderBookPrecision);
-        ("8", "GET market/stats", MarketStats);
-        ("9", "GET market/tickers/ETH-BTC", Ticker);
-        ("10", "GET market/trades/ETH-BTC", Trades);
+        ("1", "GET system/time", SystemTime)
+        ("2", "GET system/info", SystemInfo)
+        ("3", "GET chart/candles/ETH-BTC", Candles)
+        ("4", "GET market/trading_pairs", Markets)
+        ("5", "GET market/currencies", Currencies)
+        ("6", "GET market/orderbooks/ETH-BTC", OrderBook)
+        ("7", "GET market/orderbook/precisions/ETH-BTC", OrderBookPrecision)
+        ("8", "GET market/stats", MarketStats)
+        ("9", "GET market/tickers/ETH-BTC", Ticker)
+        ("10", "GET market/trades/ETH-BTC", Trades)
 
         Spacer
-        ("", "Auth Endpoints", PlaceholderFn );
+        ("", "Auth Endpoints", PlaceholderFn )
         Spacer
 
-        ("11", "GET trading/orders", GetOrders);
-        ("12", "GET trading/orders/<id>", GetOrder);
-        ("13", "GET trading/orders/<id>/trades", GetTrades);
-        ("14", "POST trading/orders", PostOrders);
-        ("15", "PUT trading/orders/<id>", PutOrder);
-        ("16", "DELETE trading/orders/<id>", CancelOrder);
-        ("17", "GET trading/order_history", GetOrderHistory);
-        ("18", "GET trading/trades/<id>", GetTrade);
-        ("19", "GET trading/trades", GetTradeHistory);
-        ("20", "GET wallet/balances", GetBalances);
-        ("21", "GET wallet/ledger", GetLedgerHistory);
-        ("22", "GET wallet/deposit_addresses", GetDepositAddress);
-        ("23", "GET wallet/withdrawal_addresses", GetWithdrawalAddress);
-        ("24", "GET wallet/withdrawals/<id>", GetWithdrawal);
-        ("25", "GET wallet/withdrawals", GetAllWithdrawals);
-        ("26", "GET wallet/deposits/<id>", GetDeposit);
-        ("27", "GET wallet/deposits", GetAllDEposits);
+        ("11", "GET trading/orders", GetOrders)
+        ("12", "GET trading/orders/<id>", GetOrder)
+        ("13", "GET trading/orders/<id>/trades", GetTrades)
+        ("14", "POST trading/orders", PostOrders)
+        ("15", "PUT trading/orders/<id>", PutOrder)
+        ("16", "DELETE trading/orders/<id>", CancelOrder)
+        ("17", "GET trading/order_history", GetOrderHistory)
+        ("18", "GET trading/trades/<id>", GetTrade)
+        ("19", "GET trading/trades", GetTradeHistory)
+        ("20", "GET wallet/balances", GetBalances)
+        ("21", "GET wallet/ledger", GetLedgerHistory)
+        ("22", "GET wallet/deposit_addresses", GetDepositAddress)
+        ("23", "GET wallet/withdrawal_addresses", GetWithdrawalAddress)
+        ("24", "GET wallet/withdrawals/<id>", GetWithdrawal)
+        ("25", "GET wallet/withdrawals", GetAllWithdrawals)
+        ("26", "GET wallet/deposits/<id>", GetDeposit)
+        ("27", "GET wallet/deposits", GetAllDEposits)
 
         Spacer
-        ("", "WebSocket", PlaceholderFn );
+        ("", "WebSocket", PlaceholderFn )
         Spacer
 
-        ("28", "OrderBook for COB-ETH", SocketOrderBook);
+        ("28", "OrderBook for COB-ETH", SocketOrderBook)
     ]
 
 

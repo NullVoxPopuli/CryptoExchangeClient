@@ -24,21 +24,23 @@ type WebSocketClient() =
 
     let mutable client: PureWebSocket = null
     let mutable pingCanceller = null;
+    let tokenSource = new CancellationTokenSource()
 
-    member __.Send (payload: string) = client.Send payload
-    member __.PingPonger () = __.Send """{"action": "ping"}""" |> ignore
+    member __.Send (payload: string) =
+        printfn "sending: %A" payload
+        client.Send payload
+    member __.PingPonger () = __.Send """{"action":"ping"}""" |> ignore
 
     member __.OnClose (reason: WebSocketCloseStatus): unit =
         reason
         |> printfn "%A"
 
     member __.OnMessage (value: string): unit =
+        printfn "OnMessage: %A" value
         MessageHandler.HandleMessage value
 
     member __.OnOpen () =
-        pingCanceller <- new CancellationTokenSource()
-
-        RunPeriodically (__.PingPonger, pingInterval, pingCanceller.Token)
+        RunPeriodically (__.PingPonger, pingInterval, tokenSource.Token)
         |> ignore
 
 
@@ -66,10 +68,12 @@ type WebSocketClient() =
         client.add_OnOpened (fun () -> __.OnOpen() )
 
         client.add_OnMessage (fun x -> __.OnMessage(x) )
-        client.add_OnError (fun x -> x |> printfn "error: %A")
-        client.add_OnFatality (fun x -> x |> printfn "fatality: %A")
+        client.add_OnData (fun x -> x |> printfn "socket on data: %A")
+        client.add_OnError (fun x -> x |> printfn "socket error: %A")
+        client.add_OnFatality (fun x -> x |> printfn "socket fatality: %A")
         //client.add_OnStateChanged (fun x -> x |> printfn "statechange: %A")
 
+        //client.add_OnSendFailed (fun () -> printfn "socket on send failed")
         //client.add_OnSendFailed (fun () -> __.OnSendFailed() )
 
         client.Connect()

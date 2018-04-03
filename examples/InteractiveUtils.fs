@@ -54,7 +54,7 @@ module InteractiveUtils =
         let finder = NumberEqualsMapEntry(selected)
 
         optionMap
-        |> List.find finder
+        |> List.tryFind finder
 
     let rec PromptMenu (title: string, optionMap: (string * string * (unit -> unit)) list) =
         Console.WriteLine ""
@@ -77,7 +77,7 @@ module InteractiveUtils =
             let selected = FindSelected(key, optionMap)
 
             match selected with
-            | (s: string * string * (unit -> unit)) -> do
+            | Some s -> do
                 let (_num, demoTitle, demo) = s
 
                 WriteHeader demoTitle
@@ -90,7 +90,7 @@ module InteractiveUtils =
 
 
                 PromptMenu(title, optionMap)
-            | _ -> do
+            | None -> do
                 Console.WriteLine("Invalid Selection")
                 PromptMenu(title, optionMap)
 

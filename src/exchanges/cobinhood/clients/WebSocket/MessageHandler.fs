@@ -76,6 +76,6 @@ module MessageHandler =
             | "pong" -> ()
             | "error" ->
                 payload
-                |> printfn "error: %A"
+                |> printfn "message error: %A"
                 ()
             | _ -> raise (UnknownMessageType(value))

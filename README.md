@@ -64,6 +64,7 @@ paket add CryptoExchangeClient
 
 - [FSharp.Data](http://fsharp.github.io/FSharp.Data/)
 - [FSharp.Json](https://github.com/vsapronov/FSharp.Json)
+- [PureWebsockets](https://github.com/coinigy/PureWebSockets)
 - [Rationals](https://github.com/tompazourek/Rationals)
 - [RestSharp](http://restsharp.org/)
 
