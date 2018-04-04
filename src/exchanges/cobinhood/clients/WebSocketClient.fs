@@ -29,11 +29,9 @@ type WebSocketClient() =
     member __.Send (payload: string) =
         printfn "sending: %A" payload
         client.SendTextAsync payload
+
     member __.PingPonger () = __.Send """{"action":"ping"}""" |> ignore
 
-    member __.OnClose (reason: WebSocketCloseStatus): unit =
-        reason
-        |> printfn "%A"
 
     member __.OnMessage (value: string): unit =
         printfn "OnMessage: %A" value
@@ -44,7 +42,7 @@ type WebSocketClient() =
         |> ignore
 
 
-    member __.SubscribeTo (channel: ChannelType, symbol: string, precision: string): unit =
+    member __.SubscribeTo (channel: ChannelType, symbol: string, precision: string): Async<unit> = async {
         let data: SubscribeToOrderBook = {
             action = Action.Subscribe |> ActionToString;
             channelType = channel |> TypeToString;
@@ -56,6 +54,7 @@ type WebSocketClient() =
         |> Json.serialize
         |> client.SendTextAsync
         |> ignore
+    }
 
 
 
@@ -68,7 +67,7 @@ type WebSocketClient() =
                         "Cache-Control", "no-cache" ]
 
         let onNextStatus (status: ConnectionStatus) =
-            printfn "Status Change"
+            printfn "Status Change: %A" status
             if status.Equals ConnectionStatus.Disconnected
                 || status.Equals ConnectionStatus.Aborted
                 || status.Equals ConnectionStatus.ConnectionFailed
@@ -81,11 +80,9 @@ type WebSocketClient() =
         let onCompleted () =
             printfn "Connection Complete"
             tokenSource.Cancel()
-        let onMessage (msg: string) =
-            printfn "Received Message"
-            printfn "%A" msg
+
         let onReceiveError (ex: Exception) =
-            printfn "%A" ex
+            printfn "error: %A" ex
             tokenSource.Cancel()
         let onSubscriptionComplete () =
             printfn "Subscription Completed"
@@ -106,7 +103,7 @@ type WebSocketClient() =
         client.ObserveConnectionStatus.Subscribe(onNextStatus, onError, onCompleted)
         |> ignore
 
-        messageObserver.Subscribe(onMessage, onReceiveError, onSubscriptionComplete)
+        messageObserver.Subscribe(__.OnMessage, onReceiveError, onSubscriptionComplete)
         |> ignore
 
 

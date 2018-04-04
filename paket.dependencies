@@ -1,16 +1,27 @@
 source https://www.nuget.org/api/v2
+
+# General
+nuget Fake
+
+
+# Testing
 nuget Expecto
 nuget Expecto.BenchmarkDotNet
 nuget Expecto.FsCheck
-nuget Fake
 nuget FsCheck
-nuget FSharp.Data
 nuget FsUnit
 nuget Microsoft.DotNet.Watcher.Tools
-nuget RestSharp
-nuget FSharp.Core
 
 clitool Microsoft.DotNet.Watcher.Tools
+
+# CryptoExchangeClient
+nuget RestSharp
+nuget FSharp.Data
+nuget FSharp.Core
+nuget Rationals
+nuget SocketLite.PCL
+nuget WebsocketClientLite.PCL
+
 
 group Build
   source https://api.nuget.org/v3/index.json

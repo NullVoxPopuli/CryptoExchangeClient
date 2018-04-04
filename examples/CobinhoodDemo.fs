@@ -72,15 +72,19 @@ module CobinhoodDemo =
     let GetDeposit () = client.GetDeposit("62056df2d4cf8fb9b15c7238b89a1438") |> printfn "%A"
     let GetAllDEposits () = client.GetAllDeposits() |> printfn "%A"
 
-
+    // Precision could be retrieved from <#RestClient>.GetOrderBookPrecision
     let SocketOrderBook () =
         let token = new CancellationTokenSource()
-        socket.Connect token
-        // Precision could be retrieved from <#RestClient>.GetOrderBookPrecision
-        socket.SubscribeTo(ChannelType.OrderBook, symbol = "COB-ETH", precision = "1E-7")
+
+        async {
+            do! socket.Connect token
+            do! socket.SubscribeTo(ChannelType.OrderBook, symbol = "COB-ETH", precision = "1E-7")
+        } |> Async.RunSynchronously
+
         //socket.OnReceiveOrderBookUpdate = (fun payload ->
         //    payload |> printfn "%A"
         //)
+        ()
 
     let optionMap = [
         ("", "Public Endpoints", PlaceholderFn )
