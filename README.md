@@ -67,7 +67,7 @@ paket add CryptoExchangeClient
 - [PureWebsockets](https://github.com/coinigy/PureWebSockets)
 - [Rationals](https://github.com/tompazourek/Rationals)
 - [RestSharp](http://restsharp.org/)
-
+- [WebsocketClientLite.PCL](https://github.com/1iveowl/WebsocketClientLite.PCL)
 
 ### Getting Started
 

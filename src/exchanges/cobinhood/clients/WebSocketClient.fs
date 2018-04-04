@@ -5,12 +5,17 @@ open PureWebSockets
 open System.Net.WebSockets
 open System.Threading
 open FSharp.Json
+open WebsocketClientLite.PCL
+open ISocketLite.PCL.Model
+
 
 open CryptoApi.AsyncUtils
 open CryptoApi.BaseExchange.Client
 open CryptoApi.Exchanges.Cobinhood.Parameters.SocketParams
 open CryptoApi.Exchanges.Cobinhood.Data.Providers
 open CryptoApi.Exchanges.Cobinhood.WebSocket
+open System.Collections.Generic
+open IWebsocketClientLite.PCL
 
 exception UnknownChannelType of string
 exception UnknownMessageType of string
@@ -22,9 +27,9 @@ type WebSocketClient() =
     let minReconnectIntervalMs = 20 * 60 * 1000 // 20 Minutes
     let pingInterval = 60 * 1000 // 1 Minute
 
-    let mutable client: PureWebSocket = null
-    let mutable pingCanceller = null;
-    let tokenSource = new CancellationTokenSource()
+    let mutable client: MessageWebSocketRx = null
+    let mutable clientMessageObserver: IObservable<string> = null
+    let mutable cancelTokenSource: CancellationTokenSource = null;
 
     member __.Send (payload: string) =
         printfn "sending: %A" payload
@@ -40,7 +45,7 @@ type WebSocketClient() =
         MessageHandler.HandleMessage value
 
     member __.OnOpen () =
-        RunPeriodically (__.PingPonger, pingInterval, tokenSource.Token)
+        RunPeriodically (__.PingPonger, pingInterval, cancelTokenSource.Token)
         |> ignore
 
 
@@ -59,26 +64,58 @@ type WebSocketClient() =
 
 
 
-    override __.Connect =
-        let reconnect = new ReconnectStrategy(10000)
+    override __.Connect (tokenSource: CancellationTokenSource) =
+        client <- new MessageWebSocketRx()
+        cancelTokenSource <- tokenSource
+        
+        let headers = dict [
+                        "Pragma", "no-cache"
+                        "Cache-Control", "no-cache" ]
+        async {
+            let onNextStatus (status: ConnectionStatus) =
+                printfn "Status Change"
+                if status.Equals ConnectionStatus.Disconnected
+                   || status.Equals ConnectionStatus.Aborted
+                   || status.Equals ConnectionStatus.ConnectionFailed
+                then
+                    tokenSource.Cancel()
 
-        client <- new PureWebSocket(__.url, reconnect)
+            let onError (ex: Exception) =
+                printfn "Connection Error"
+                tokenSource.Cancel()
+            let onCompleted () =
+                printfn "Connection Complete"
+                tokenSource.Cancel()
+            let onMessage (msg: string) =
+                printfn "Received Message"
+                printfn "%A" msg
+            let onReceiveError (ex: Exception) =
+                printfn "%A" ex
+                tokenSource.Cancel()
+            let onSubscriptionComplete () =
+                printfn "Subscription Completed"
+                tokenSource.Cancel()
 
-        client.add_OnClosed (fun x -> __.OnClose(x) )
-        client.add_OnOpened (fun () -> __.OnOpen() )
+            
+            let! messageObserver =
+                client.CreateObservableMessageReceiver(
+                    new Uri(__.url),
+                    headers = headers,
+                    subProtocols = null, // ex: "soap", "json"
+                    ignoreServerCertificateErrors = true,
+                    tlsProtocolType = TlsProtocolVersion.Tls12
+                ) |> Async.AwaitTask
 
-        client.add_OnMessage (fun x -> __.OnMessage(x) )
-        client.add_OnData (fun x -> x |> printfn "socket on data: %A")
-        client.add_OnError (fun x -> x |> printfn "socket error: %A")
-        client.add_OnFatality (fun x -> x |> printfn "socket fatality: %A")
-        //client.add_OnStateChanged (fun x -> x |> printfn "statechange: %A")
+            clientMessageObserver <- messageObserver
 
-        //client.add_OnSendFailed (fun () -> printfn "socket on send failed")
-        //client.add_OnSendFailed (fun () -> __.OnSendFailed() )
 
-        client.Connect()
-        |> ignore
+            client.ObserveConnectionStatus.Subscribe(onNextStatus, onError, onCompleted)
+            |> ignore
 
-        client
+            messageObserver.Subscribe(onMessage, onReceiveError, onSubscriptionComplete)
+            |> ignore
+
+            
+        }
 
 
