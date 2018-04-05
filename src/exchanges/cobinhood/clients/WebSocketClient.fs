@@ -26,11 +26,20 @@ type WebSocketClient() =
     let mutable clientMessageObserver: IObservable<string> = null
     let mutable cancelTokenSource: CancellationTokenSource = null;
 
-    member __.Send (payload: string) =
+    member __.GetClient = client
+
+    member __.Send (payload: string) = async {
         printfn "sending: %A" payload
         client.SendTextAsync payload
+    }
 
-    member __.PingPonger () = __.Send """{"action":"ping"}""" |> ignore
+    member __.Disconnect () =
+        printfn "Disconnecting...."
+        cancelTokenSource.Cancel()
+
+    member __.PingPonger () =
+        printfn "pinging"
+        __.Send """{"action":"ping"}"""
 
 
     member __.OnMessage (value: string): unit =
@@ -40,6 +49,7 @@ type WebSocketClient() =
     member __.OnOpen () =
         RunPeriodically (__.PingPonger, pingInterval, cancelTokenSource.Token)
         |> ignore
+        ()
 
 
     member __.SubscribeTo (channel: ChannelType, symbol: string, precision: string): Async<unit> = async {
@@ -72,21 +82,26 @@ type WebSocketClient() =
                 || status.Equals ConnectionStatus.Aborted
                 || status.Equals ConnectionStatus.ConnectionFailed
             then
-                tokenSource.Cancel()
+                __.Disconnect()
+
+            if status.Equals ConnectionStatus.Connected
+            then __.OnOpen()
 
         let onError (ex: Exception) =
             printfn "Connection Error"
-            tokenSource.Cancel()
+            __.Disconnect()
+
         let onCompleted () =
             printfn "Connection Complete"
-            tokenSource.Cancel()
+            __.Disconnect()
 
         let onReceiveError (ex: Exception) =
             printfn "error: %A" ex
-            tokenSource.Cancel()
+            __.Disconnect()
+
         let onSubscriptionComplete () =
             printfn "Subscription Completed"
-            tokenSource.Cancel()
+            __.Disconnect()
 
 
         let! messageObserver =

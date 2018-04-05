@@ -10,6 +10,7 @@ module CobinhoodDemo =
     open CryptoApi.Exchanges.Cobinhood.Parameters
     open CryptoApi.Exchanges.Cobinhood.Parameters.SocketParams
     open System.Threading
+    open CryptoApi
 
     let key = System.Environment.GetEnvironmentVariable("COBINHOOD_API_KEY")
     let client = Cobinhood.RestClient(key)
@@ -81,9 +82,11 @@ module CobinhoodDemo =
             do! socket.SubscribeTo(ChannelType.OrderBook, symbol = "COB-ETH", precision = "1E-7")
         } |> Async.RunSynchronously
 
+
         //socket.OnReceiveOrderBookUpdate = (fun payload ->
         //    payload |> printfn "%A"
         //)
+        printfn "Started Websocket connection"
         ()
 
     let optionMap = [
