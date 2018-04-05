@@ -20,7 +20,7 @@ type WebSocketClient() =
     inherit AbstractWebSocketClient("wss://ws.cobinhood.com/v2/ws")
 
     let minReconnectIntervalMs = 20 * 60 * 1000 // 20 Minutes
-    let pingInterval = 60 * 1000 // 1 Minute
+    let pingInterval = 10 * 1000 // 30 seconds
 
     let mutable client: MessageWebSocketRx = null
     let mutable clientMessageObserver: IObservable<string> = null
@@ -28,10 +28,12 @@ type WebSocketClient() =
 
     member __.GetClient = client
 
-    member __.Send (payload: string) = async {
+    member __.Send (payload: string) =
         printfn "sending: %A" payload
+
         client.SendTextAsync payload
-    }
+        |> Async.AwaitTask
+        |> Async.RunSynchronously  // maybe? do we care if this block?
 
     member __.Disconnect () =
         printfn "Disconnecting...."
@@ -42,13 +44,15 @@ type WebSocketClient() =
         __.Send """{"action":"ping"}"""
 
 
+
     member __.OnMessage (value: string): unit =
         printfn "OnMessage: %A" value
         MessageHandler.HandleMessage value
 
     member __.OnOpen () =
+        printfn "onopen"
         RunPeriodically (__.PingPonger, pingInterval, cancelTokenSource.Token)
-        |> ignore
+
         ()
 
 
@@ -62,8 +66,7 @@ type WebSocketClient() =
 
         data
         |> Json.serialize
-        |> client.SendTextAsync
-        |> ignore
+        |> __.Send
     }
 
 
@@ -96,7 +99,7 @@ type WebSocketClient() =
             __.Disconnect()
 
         let onReceiveError (ex: Exception) =
-            printfn "error: %A" ex
+            printfn "receive error: %A" ex
             __.Disconnect()
 
         let onSubscriptionComplete () =
@@ -109,7 +112,8 @@ type WebSocketClient() =
                 new Uri(__.url),
                 headers = headers,
                 subProtocols = null, // ex: "soap", "json"
-                ignoreServerCertificateErrors = true
+                ignoreServerCertificateErrors = true,
+                excludeZeroApplicationDataInPong = true
             ) |> Async.AwaitTask
 
         clientMessageObserver <- messageObserver

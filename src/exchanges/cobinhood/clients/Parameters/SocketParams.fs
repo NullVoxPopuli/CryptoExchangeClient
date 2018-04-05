@@ -42,3 +42,7 @@ module SocketParams =
 
         precision: string
     }
+
+    //type Ping = {
+    //    action: string
+    //}

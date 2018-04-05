@@ -73,21 +73,32 @@ module CobinhoodDemo =
     let GetDeposit () = client.GetDeposit("62056df2d4cf8fb9b15c7238b89a1438") |> printfn "%A"
     let GetAllDEposits () = client.GetAllDeposits() |> printfn "%A"
 
-    // Precision could be retrieved from <#RestClient>.GetOrderBookPrecision
-    let SocketOrderBook () =
+
+    let SocketDemo (fn: CancellationTokenSource -> Async<unit>) =
         let token = new CancellationTokenSource()
 
-        async {
-            do! socket.Connect token
-            do! socket.SubscribeTo(ChannelType.OrderBook, symbol = "COB-ETH", precision = "1E-7")
-        } |> Async.RunSynchronously
+        Async.Start (fn(token), token.Token)
 
+        PromptToRun "\n\nType 'Y' followed by <enter> to cancel the websocket demo \n\n" (fun () -> token.Cancel() )
+
+        ()
+
+    let SocketOrderBook () =
+        SocketDemo (fun (token) -> async {
+            do! socket.Connect token
+            // Precision could be retrieved from <#RestClient>.GetOrderBookPrecision
+            do! socket.SubscribeTo(ChannelType.OrderBook, symbol = "COB-ETH", precision = "1E-7")
+        })
 
         //socket.OnReceiveOrderBookUpdate = (fun payload ->
         //    payload |> printfn "%A"
         //)
-        printfn "Started Websocket connection"
-        ()
+
+
+    let SocketPingPong () =
+        SocketDemo (fun (token) -> async {
+            do! socket.Connect token
+        })
 
     let optionMap = [
         ("", "Public Endpoints", PlaceholderFn )
@@ -130,7 +141,8 @@ module CobinhoodDemo =
         ("", "WebSocket", PlaceholderFn )
         Spacer
 
-        ("28", "OrderBook for COB-ETH", SocketOrderBook)
+        ("28", "ping/pong", SocketPingPong)
+        ("29", "OrderBook for COB-ETH", SocketOrderBook)
     ]
 
 

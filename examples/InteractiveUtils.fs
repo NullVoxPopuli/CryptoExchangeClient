@@ -34,6 +34,16 @@ module InteractiveUtils =
     //    | "N" -> Environment.Exit(0)
     //    | _ -> ()
 
+
+    let PromptToRun (question: string) (fn: unit -> unit)  =
+        Console.Write(question);
+        let key = Console.ReadLine();
+
+        match key with
+        | "Y" -> fn()
+        | "y" -> fn()
+        | _ -> ()
+
     let NumberEqualsMapEntry (num: string)  (entry: string * string * (unit -> unit)): bool =
         let (number, _title, _fun) = entry
 

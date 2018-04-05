@@ -5,13 +5,13 @@ module AsyncUtils =
     open System.Threading
     open System.Threading.Tasks
 
-    let PeriodicRunner (f: unit -> Async<unit>, interval: int) = async {
+    let PeriodicRunner (f: unit -> 'a, interval: int) = async {
       f() |> ignore
 
       do! Async.Sleep interval
     }
 
-    let rec RunPeriodically (f: unit -> Async<unit>, interval: int, token: CancellationToken) =
+    let rec RunPeriodically (f: unit -> 'a, interval: int, token: CancellationToken) =
         System.DateTime.UtcNow.ToShortTimeString() |> printfn "Starting Periodic calling... %A"
 
         let doAndDelay: Async<unit> = async {
