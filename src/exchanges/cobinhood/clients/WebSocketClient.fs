@@ -48,12 +48,37 @@ type WebSocketClient() =
         RunPeriodically (__.PingPonger, pingInterval, cancelTokenSource.Token)
 
 
-    member __.SubscribeTo (channel: ChannelType, symbol: string, precision: string): Async<unit> = async {
+    member __.SubscribeTo (socketParams: SocketOrderBookParams): Async<unit> = async {
         let data: SubscribeToOrderBook = {
+            action = Action.Subscribe |> ActionToString
+            channelType = socketParams.channel |> TypeToString
+            tradingPairId = socketParams.symbol
+            precision = socketParams.precision
+        }
+
+        data
+        |> Json.serialize
+        |> __.Send
+    }
+
+    member __.SubscribeTo (socketParams: SocketTradeParams): Async<unit> = async {
+         let data: SubscribeToTrade = {
+            action = Action.Subscribe |> ActionToString
+            channelType = socketParams.channel |> TypeToString
+            tradingPairId = socketParams.symbol
+        }
+
+        data
+        |> Json.serialize
+        |> __.Send
+    }
+
+    member __.SubscribeTo (socketParams: SocketCandleParams): Async<unit> = async {
+         let data: SubscribeToCandle = {
             action = Action.Subscribe |> ActionToString;
-            channelType = channel |> TypeToString;
-            tradingPairId = symbol;
-            precision = precision;
+            channelType = socketParams.channel |> TypeToString;
+            tradingPairId = socketParams.symbol
+            timeframe = socketParams.timeframe
         }
 
         data

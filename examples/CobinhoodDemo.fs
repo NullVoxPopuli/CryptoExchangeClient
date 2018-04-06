@@ -83,21 +83,34 @@ module CobinhoodDemo =
 
         ()
 
-    let SocketOrderBook () =
+    let SocketTrades () =
         SocketDemo (fun (token) -> async {
             do! socket.Connect token
-            // Precision could be retrieved from <#RestClient>.GetOrderBookPrecision
-            do! socket.SubscribeTo(ChannelType.OrderBook, symbol = "COB-ETH", precision = "1E-7")
+            do! socket.SubscribeTo({ channel = ChannelType.Trade; symbol = "COB-ETH" })
         })
-
-        //socket.OnReceiveOrderBookUpdate = (fun payload ->
-        //    payload |> printfn "%A"
-        //)
-
 
     let SocketPingPong () =
         SocketDemo (fun (token) -> async {
             do! socket.Connect token
+        })
+
+    let SocketOrderBook () =
+        SocketDemo (fun (token) -> async {
+            do! socket.Connect token
+            // Precision could be retrieved from <#RestClient>.GetOrderBookPrecision
+            do! socket.SubscribeTo({ channel = ChannelType.OrderBook; symbol = "COB-ETH"; precision = "1E-7" })
+        })
+
+    let SocketTicker () =
+        SocketDemo (fun (token) -> async {
+            do! socket.Connect token
+            do! socket.SubscribeTo({ channel = ChannelType.Ticker; symbol = "COB-ETH" })
+        })
+
+    let SocketCandle () =
+        SocketDemo (fun (token) -> async {
+            do! socket.Connect token
+            do! socket.SubscribeTo({ channel = ChannelType.Candle; symbol = "COB-ETH"; timeframe = "30m" })
         })
 
     let optionMap = [
@@ -138,11 +151,18 @@ module CobinhoodDemo =
         ("27", "GET wallet/deposits", GetAllDEposits)
 
         Spacer
-        ("", "WebSocket", PlaceholderFn )
+        ("", "WebSocket - Public Stream", PlaceholderFn )
         Spacer
 
         ("28", "ping/pong", SocketPingPong)
         ("29", "OrderBook for COB-ETH", SocketOrderBook)
+        ("30", "Trades for COB-ETH", SocketTrades)
+        ("31", "Ticker for COB-ETH", SocketTicker)
+        ("32", "Candles for COB-ETH", SocketCandle)
+
+        Spacer
+        ("", "WebSocket - Auth", PlaceholderFn )
+        Spacer
     ]
 
 
