@@ -29,8 +29,6 @@ type WebSocketClient() =
     member __.GetClient = client
 
     member __.Send (payload: string) =
-        printfn "sending: %A" payload
-
         client.SendTextAsync payload
         |> Async.AwaitTask
         |> Async.RunSynchronously  // maybe? do we care if this block?
@@ -39,21 +37,15 @@ type WebSocketClient() =
         printfn "Disconnecting...."
         cancelTokenSource.Cancel()
 
-    member __.PingPonger () =
-        printfn "pinging"
-        __.Send """{"action":"ping"}"""
+    member __.PingPonger () = __.Send """{"action":"ping"}"""
 
 
 
     member __.OnMessage (value: string): unit =
-        printfn "OnMessage: %A" value
         MessageHandler.HandleMessage value
 
     member __.OnOpen () =
-        printfn "onopen"
         RunPeriodically (__.PingPonger, pingInterval, cancelTokenSource.Token)
-
-        ()
 
 
     member __.SubscribeTo (channel: ChannelType, symbol: string, precision: string): Async<unit> = async {
@@ -80,7 +72,6 @@ type WebSocketClient() =
                         "Cache-Control", "no-cache" ]
 
         let onNextStatus (status: ConnectionStatus) =
-            printfn "Status Change: %A" status
             if status.Equals ConnectionStatus.Disconnected
                 || status.Equals ConnectionStatus.Aborted
                 || status.Equals ConnectionStatus.ConnectionFailed

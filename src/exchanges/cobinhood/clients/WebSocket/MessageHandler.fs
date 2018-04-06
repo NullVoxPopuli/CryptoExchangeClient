@@ -29,7 +29,9 @@ module MessageHandler =
 
             let value = if payload.IsSnapshot then amount else oldAmount + amount
 
-            book.Bids.[price] <- value
+            if value.Equals(0)
+            then book.Bids.Remove(price) |> ignore
+            else book.Bids.[price] <- value
 
         for ask in asks do
             let price = ask.Price
@@ -41,7 +43,9 @@ module MessageHandler =
 
             let value = if payload.IsSnapshot then amount else oldAmount + amount
 
-            book.Asks.[price] <- value
+            if value.Equals(0)
+            then book.Asks.Remove(price) |> ignore
+            else book.Asks.[price] <- value
 
         PrintOrderBook.ToConsole(market)
 

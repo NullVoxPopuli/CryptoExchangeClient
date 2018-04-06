@@ -12,8 +12,6 @@ module AsyncUtils =
     }
 
     let rec RunPeriodically (f: unit -> 'a, interval: int, token: CancellationToken) =
-        System.DateTime.UtcNow.ToShortTimeString() |> printfn "Starting Periodic calling... %A"
-
         let doAndDelay: Async<unit> = async {
             do! PeriodicRunner(f, interval)
 
