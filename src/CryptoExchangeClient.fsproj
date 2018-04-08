@@ -12,6 +12,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="exchanges\cobinhood\data\transformers\WebSocket\Order.fs" />
     <Compile Include="utils\CollectionUtils.fs" />
     <Compile Include="utils\AsyncUtils.fs" />
     <Compile Include="utils\NumberUtils.fs" />
@@ -34,6 +35,8 @@
     <Compile Include="exchanges\cobinhood\data\providers\WebSocketV2.fs" />
     <Compile Include="exchanges\cobinhood\data\transformers\WebSocket\OrderBook.fs" />
     <Compile Include="exchanges\cobinhood\data\transformers\WebSocket\Trade.fs" />
+    <Compile Include="exchanges\cobinhood\data\transformers\WebSocket\Ticker.fs" />
+    <Compile Include="exchanges\cobinhood\data\transformers\WebSocket\Candle.fs" />
     <Compile Include="exchanges\cobinhood\data\transformers\Currencies.fs" />
     <Compile Include="exchanges\cobinhood\data\transformers\Orders.fs" />
     <Compile Include="exchanges\cobinhood\data\transformers\Wallets.fs" />

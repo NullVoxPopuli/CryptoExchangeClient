@@ -20,21 +20,29 @@ type public AbstractWebSocketClient(url: string) =
 
     // ------------------
     // user-setable hooks
-    let mutable didReceiveMessage = null
-    let mutable didReceiveTicker: string = null
-    let mutable didReceiveOrderBookUpdate = null
-    member val DidReceiveTrade: DidReceiveTradeHook = None with get,set
-    member val DidReceiveOrderBook: DidReceiveOrderBookHook = None with get,set
+    member val didReceiveTicker: DidReceiveTickerHook = None with get, set
+    member val didReceiveTrade: DidReceiveTradeHook = None with get, set
+    member val didReceiveOrderBook: DidReceiveOrderBookHook = None with get, set
+    member val didReceiveCandle: DidReceiveCandleHook = None with get, set
 
+    member __.SetDidReceiveTicker (hook: (TickerUpdate -> unit)) =
+       __.didReceiveTicker <- Some(hook)
 
+    member __.SetDidReceiveTrade (hook: (TradeUpdate[] -> unit)) =
+        __.didReceiveTrade <- Some(hook)
+
+    member __.SetDidReceiveOrderBook (hook: ((OrderBookUpdate * Market) -> unit)) =
+        __.didReceiveOrderBook <- Some(hook)
+
+    member __.SetDidReceiveCandle (hook: (CandleUpdate[] -> unit)) =
+        __.didReceiveCandle <- Some(hook)
 
     // 'public' fields
-    //member val client: MessageWebSocketRx = null
-    member val Client: MessageWebSocketRx = null with get,set
+    member val Client: MessageWebSocketRx = null with get, set
 
     // 'protected' fields
-    member val clientMessageObserver: IObservable<string> = null with get,set
-    member val cancelTokenSource: CancellationTokenSource = null with get,set
+    member val clientMessageObserver: IObservable<string> = null with get, set
+    member val cancelTokenSource: CancellationTokenSource = null with get, set
 
 
     // -------
@@ -45,14 +53,12 @@ type public AbstractWebSocketClient(url: string) =
     // -----------------------
     // local socket management
 
-
-
     // ------------------------------------------------
     // connection management and socket-client helpers
     member __.Send (payload: string) =
         __.Client.SendTextAsync payload
         |> Async.AwaitTask
-        |> Async.RunSynchronously  // maybe? do we care if this block?
+        |> Async.RunSynchronously  // maybe? do we care if this blocks?
 
     member __.Disconnect () =
         printfn "Disconnecting...."

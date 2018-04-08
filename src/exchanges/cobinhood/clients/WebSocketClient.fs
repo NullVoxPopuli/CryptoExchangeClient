@@ -25,26 +25,26 @@ type WebSocketClient() =
         let channelName = payload.H.[0]
         let messageType = payload.H.[2]
 
-        match channelName with
-        | "order" -> MessageHandler.HandleOrderUpdate(value)
-        | WebSocketV2.IsOrderBook (_, pair, _precision) -> MessageHandler.HandleOrderBookUpdate(value, pair, __.DidReceiveOrderBook)
-        | WebSocketV2.IsTrade (_, pair) -> MessageHandler.HandleTradeUpdate(value, pair, __.DidReceiveTrade)
-        | WebSocketV2.IsTicker (_, pair) -> MessageHandler.HandleTickerUpdate(value)
-        | _ ->
-            match messageType with
-            // these are likely going to be caught by the above matches
-            | "subscribed" -> ()
-            | "unsubscribed" -> ()
-            | "pong" -> ()
 
-            // other messages
-            | "error" ->
-                payload
-                |> printfn "message error: %A"
-                ()
+        match messageType with
+        // these are likely going to be caught by the above matches
+        | "subscribed" -> ()
+        | "unsubscribed" -> ()
+        | "pong" -> ()
+
+        // other messages
+        | "error" ->
+            payload
+            |> printfn "message error: %A"
+            ()
+        | _ -> // raise (UnknownMessageType(value))
+            match channelName with
+            | "order" -> MessageHandler.HandleOrderUpdate(value)
+            | WebSocketV2.IsOrderBook (_, pair, _precision) -> MessageHandler.HandleOrderBookUpdate(value, pair, __.didReceiveOrderBook)
+            | WebSocketV2.IsTrade (_, pair) -> MessageHandler.HandleTradeUpdate(value, pair, __.didReceiveTrade)
+            | WebSocketV2.IsTicker (_, pair) -> MessageHandler.HandleTickerUpdate(value, pair, __.didReceiveTicker)
+            | WebSocketV2.IsCandle (_, pair) -> MessageHandler.HandleCandleUpdate(value, pair, __.didReceiveCandle)
             | _ -> raise (UnknownMessageType(value))
-
-
 
     member __.SubscribeTo (socketParams: SocketOrderBookParams): Async<unit> = async {
         {

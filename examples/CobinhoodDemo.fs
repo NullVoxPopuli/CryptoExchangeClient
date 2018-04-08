@@ -89,7 +89,7 @@ module CobinhoodDemo =
             do! socket.Connect token
             do! socket.SubscribeTo({ channel = ChannelType.Trade; symbol = "COB-ETH" })
 
-            socket.DidReceiveTrade <- Some(fun update -> printfn "%A" update)
+            socket.SetDidReceiveTrade (fun update -> printfn "%A" update)
         })
 
     let SocketPingPong () =
@@ -103,19 +103,23 @@ module CobinhoodDemo =
             // Precision could be retrieved from <#RestClient>.GetOrderBookPrecision
             do! socket.SubscribeTo({ channel = ChannelType.OrderBook; symbol = "COB-ETH"; precision = "1E-7" })
 
-            socket.DidReceiveOrderBook <- Some(fun (update, market) ->  PrintOrderBook.ToConsole(market))
+            socket.SetDidReceiveOrderBook (fun (update, market) ->  PrintOrderBook.ToConsole(market))
         })
 
     let SocketTicker () =
         SocketDemo (fun (token) -> async {
             do! socket.Connect token
             do! socket.SubscribeTo({ channel = ChannelType.Ticker; symbol = "COB-ETH" })
+
+            socket.SetDidReceiveTicker (fun (update) -> printfn "%A" update)
         })
 
     let SocketCandle () =
         SocketDemo (fun (token) -> async {
             do! socket.Connect token
             do! socket.SubscribeTo({ channel = ChannelType.Candle; symbol = "COB-ETH"; timeframe = "30m" })
+
+            socket.SetDidReceiveTicker (fun (update) -> printfn "%A" update)
         })
 
     let optionMap = [

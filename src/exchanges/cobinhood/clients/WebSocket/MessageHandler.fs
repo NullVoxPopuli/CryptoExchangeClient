@@ -80,7 +80,22 @@ module MessageHandler =
         |> ignore
 
 
-    let HandleTickerUpdate(socketMessage: string) =
-        socketMessage
-        |> WebSocketV2.Ticker.Parse
-        |> ignore
+    let HandleTickerUpdate(socketMessage: string, symbol: string, hook: DidReceiveTickerHook) =
+        let tickerUpdate =
+            socketMessage
+            |> WebSocketV2.Ticker.Parse
+            |> WebSocket.Ticker.ExtractTickerUpdateMessages symbol
+
+        match hook with
+        | Some fn -> fn tickerUpdate
+        | None -> ()
+
+    let HandleCandleUpdate(socketMessage: string, symbol: string, hook: DidReceiveCandleHook) =
+        let candleUpdate =
+            socketMessage
+            |> WebSocketV2.Candle.Parse
+            |> WebSocket.Candle.ExtractCandleUpdate symbol
+
+        match hook with
+        | Some fn -> fn candleUpdate
+        | None -> ()

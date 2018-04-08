@@ -7,8 +7,6 @@ module Trade =
     open CryptoApi.Data
 
     let ExtractTradeUpdateMessage (symbol: string) (data: string[]): TradeUpdate =
-        printfn "%A" data
-
         {
             Symbol = symbol
             TradeId = data.[0]

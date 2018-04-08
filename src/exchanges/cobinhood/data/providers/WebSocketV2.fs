@@ -130,22 +130,20 @@ module WebSocketV2 =
     type Ticker = JsonProvider<"""{
         "h": ["ticker.COB-ETH", "2", "u"],
         "d": [
-            [
-              "TIME_STAMP",
-              "HIGHEST_BID",
-              "LOWEST_ASK",
-              "24H_VOLUME",
-              "24H_HIGH",
-              "24H_LOW",
-              "24H_OPEN",
-              "LAST_TRADE_PRICE"
-            ]
+            "TIME_STAMP",
+            "HIGHEST_BID",
+            "LOWEST_ASK",
+            "24H_VOLUME",
+            "24H_HIGH",
+            "24H_LOW",
+            "24H_OPEN",
+            "LAST_TRADE_PRICE"
         ]
     }""">
 
     type Candle = JsonProvider<"""{
-        "channel_id": "CHANNEL_ID",
-        "snapshot":
+        "h": ["trade.COB-ETH", "2", "u"],
+        "d":
             [
               ["TIME_STAMP", "VOL", "HIGH", "LOW", "OPEN", "CLOSE"]
             ]
@@ -181,6 +179,16 @@ module WebSocketV2 =
 
     let (|IsTicker|_|) (payload: string) =
         match ChannelStartsWith(payload, "ticker") with
+        | None -> None
+        | Some channel ->
+            let channelParts = channel.Split [|'.'|]
+            let channelName = channelParts.[0]
+            let pair = channelParts.[1]
+
+            Some(channelName, pair)
+
+    let (|IsCandle|_|) (payload: string) =
+        match ChannelStartsWith(payload, "candle") with
         | None -> None
         | Some channel ->
             let channelParts = channel.Split [|'.'|]
