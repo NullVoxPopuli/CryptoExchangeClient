@@ -1,5 +1,7 @@
 namespace CryptoApi.Exchanges.Cobinhood
 
+open System
+
 open FSharp.Data
 open FSharp.Data.HttpRequestHeaders
 
@@ -17,10 +19,7 @@ open CryptoApi.Exchanges.Cobinhood.Data.Transformers.Currencies
 open CryptoApi.Exchanges.Cobinhood.Data.Transformers.Markets
 open CryptoApi.Exchanges.Cobinhood.Data.Transformers.Orders
 open CryptoApi.Exchanges.Cobinhood.Data.Transformers.Wallets
-open System
 open CryptoApi.BaseExchange.Client.Parameters
-
-
 
 
 type RestClient(?apiKey: string) =
@@ -32,9 +31,6 @@ type RestClient(?apiKey: string) =
 
     let nonceIncrement = int64 1
     let mutable lastNonce: int64 = int64 0
-
-    let mutable KnownMarkets: Market[] = Array.empty<Market>
-    let mutable Currencies: Currency[] = Array.empty<Currency>
 
     ////////////////////////////
     // System
@@ -57,7 +53,7 @@ type RestClient(?apiKey: string) =
                         |> TradingPairsResponse.Parse
                         |> ExtractMarkets
 
-        KnownMarkets <- markets
+        CobinhoodCache.SetMarkets markets
 
         markets
 
@@ -66,7 +62,7 @@ type RestClient(?apiKey: string) =
                          |> CurrenciesResponse.Parse
                          |> ExtractCurrencies
 
-        Currencies <- currencies
+        CobinhoodCache.SetCurrencies currencies
 
         currencies
 
@@ -97,23 +93,23 @@ type RestClient(?apiKey: string) =
     override __.GetOrders =
         __.Get "trading/orders"
         |> GetAllOrdersResponse.Parse
-        |> ExtractOrders(KnownMarkets)
+        |> ExtractOrders(CobinhoodCache.GetMarkets)
 
     member __.GetOrder (id: string) =
         __.Get ("trading/orders/" + id)
         |> GetOrderResponse.Parse
-        |> ExtractOrder(KnownMarkets)
+        |> ExtractOrder(CobinhoodCache.GetMarkets)
 
     member __.GetTrades (id: string) =
         __.Get ("trading/orders/" + id + "/trades")
         |> GetOrderTradesResponse.Parse
 
-    member __.PlaceOrder (body: PlaceOrderParameters) =
+    member __.PlaceOrder (body: RestParams.PlaceOrder) =
         __.Post ("trading/orders", body)
         |> PlaceOrderResponse.Parse
-        |> ExtractOrder(KnownMarkets)
+        |> ExtractOrder(CobinhoodCache.GetMarkets)
 
-    member __.ModifyOrder (id: string) (body: ModifyOrderParameters) =
+    member __.ModifyOrder (id: string) (body: RestParams.ModifyOrder) =
         __.Put ("trading/orders/" + id, body)
         |> ModifyOrderResponse.Parse
 

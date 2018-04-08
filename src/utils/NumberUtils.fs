@@ -1,7 +1,7 @@
-﻿namespace CryptoApi
+namespace CryptoApi
 
 open Rationals
 
-module NumberUtils = 
+module NumberUtils =
     let DecimalToRational (num: decimal) =
         Rational.ParseDecimal(num.ToString())

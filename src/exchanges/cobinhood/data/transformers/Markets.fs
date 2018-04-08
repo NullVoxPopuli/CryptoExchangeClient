@@ -1,20 +1,23 @@
-﻿namespace CryptoApi.Exchanges.Cobinhood.Data.Transformers
+namespace CryptoApi.Exchanges.Cobinhood.Data.Transformers
 
 open CryptoApi.Data
 
 open CryptoApi.Exchanges.Cobinhood.Data.Providers.Market
 
 module Markets =
+    open System.Collections.Generic
+    open Rationals
+
     let ExtractMarket (tradingPair: TradingPairsResponse.TradingPair): Market =
         let market = {
-            symbol = tradingPair.Id;
-            baseCurrency = tradingPair.BaseCurrencyId;
-            quoteCurrency = tradingPair.QuoteCurrencyId;
+            Symbol = tradingPair.Id;
+            BaseCurrency = tradingPair.BaseCurrencyId;
+            QuoteCurrency = tradingPair.QuoteCurrencyId;
 
-            book = 
+            Book =
             {
-                bids = Array.empty<OrderBookEntry>;
-                asks = Array.empty<OrderBookEntry>;
+                Bids = new Dictionary<string, Rational>()
+                Asks = new Dictionary<string, Rational>()
             };
         }
 

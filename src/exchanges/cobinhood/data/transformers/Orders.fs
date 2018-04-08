@@ -1,4 +1,4 @@
-﻿namespace CryptoApi.Exchanges.Cobinhood.Data.Transformers
+namespace CryptoApi.Exchanges.Cobinhood.Data.Transformers
 
 open CryptoApi.Data
 
@@ -7,17 +7,17 @@ open CryptoApi.Exchanges.Cobinhood.Data.Providers.Trading
 module Orders =
     open Rationals
 
-    type TypeOfOrderResponse = 
+    type TypeOfOrderResponse =
         | OrdersOrder of GetAllOrdersResponse.Order
         | OrderOrder of GetOrderResponse.Order
 
-    let ExtractOrderFromPayload (knownMarkets: Market[]) (payload: TypeOfOrderResponse): Order = 
+    let ExtractOrderFromPayload (knownMarkets: Market[]) (payload: TypeOfOrderResponse): Order =
 
         let symbolFromOrder = match payload with
                               | OrdersOrder o -> o.TradingPairId
                               | OrderOrder o -> o.TradingPairId
 
-        let marketEqualsSymbol = fun km -> km.symbol.Equals(symbolFromOrder)
+        let marketEqualsSymbol = fun (km: Market) -> km.Symbol.Equals(symbolFromOrder)
         let market = knownMarkets |> Array.find marketEqualsSymbol
 
         let order = {

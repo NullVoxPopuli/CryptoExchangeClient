@@ -34,6 +34,16 @@ module InteractiveUtils =
     //    | "N" -> Environment.Exit(0)
     //    | _ -> ()
 
+
+    let PromptToRun (question: string) (fn: unit -> unit)  =
+        Console.Write(question);
+        let key = Console.ReadLine();
+
+        match key with
+        | "Y" -> fn()
+        | "y" -> fn()
+        | _ -> ()
+
     let NumberEqualsMapEntry (num: string)  (entry: string * string * (unit -> unit)): bool =
         let (number, _title, _fun) = entry
 
@@ -54,7 +64,7 @@ module InteractiveUtils =
         let finder = NumberEqualsMapEntry(selected)
 
         optionMap
-        |> List.find finder
+        |> List.tryFind finder
 
     let rec PromptMenu (title: string, optionMap: (string * string * (unit -> unit)) list) =
         Console.WriteLine ""
@@ -77,7 +87,7 @@ module InteractiveUtils =
             let selected = FindSelected(key, optionMap)
 
             match selected with
-            | (s: string * string * (unit -> unit)) -> do
+            | Some s -> do
                 let (_num, demoTitle, demo) = s
 
                 WriteHeader demoTitle
@@ -90,7 +100,7 @@ module InteractiveUtils =
 
 
                 PromptMenu(title, optionMap)
-            | _ -> do
+            | None -> do
                 Console.WriteLine("Invalid Selection")
                 PromptMenu(title, optionMap)
 
