@@ -11,21 +11,6 @@ open CryptoApi.AsyncUtils
 open IWebsocketClientLite.PCL
 open Rationals
 
-type ReceiveMessage = (string -> unit)
-type OrderBookUpdate = (unit -> unit)
-type TradeUpdate = {
-    Symbol: string
-    TradeId: string
-    Timestamp: string
-    Price: Rational
-    Size: Rational
-    MakerSide: string
-}
-
-
-type DidReceiveTradeHook = Option<(TradeUpdate[] -> unit)>
-
-
 // All Socket Clients should extend this class
 [<AbstractClass>]
 type public AbstractWebSocketClient(url: string) =
@@ -39,6 +24,7 @@ type public AbstractWebSocketClient(url: string) =
     let mutable didReceiveTicker: string = null
     let mutable didReceiveOrderBookUpdate = null
     member val DidReceiveTrade: DidReceiveTradeHook = None with get,set
+    member val DidReceiveOrderBook: DidReceiveOrderBookHook = None with get,set
 
 
 

@@ -20,6 +20,7 @@
     <Compile Include="base_exchange\data\Market.fs" />
     <Compile Include="base_exchange\data\Order.fs" />
     <Compile Include="base_exchange\data\Balance.fs" />
+    <Compile Include="base_exchange\data\WebSocketMessages.fs" />
     <Compile Include="base_exchange\client\Parameters.fs" />
     <Compile Include="base_exchange\client\RestClient.fs" />
     <Compile Include="base_exchange\client\WebSocketClient.fs" />

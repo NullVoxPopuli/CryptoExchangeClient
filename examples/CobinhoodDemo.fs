@@ -11,6 +11,7 @@ module CobinhoodDemo =
     open CryptoApi.Exchanges.Cobinhood.Parameters.SocketParams
     open System.Threading
     open CryptoApi
+    open CryptoApi.Debug
 
     let key = System.Environment.GetEnvironmentVariable("COBINHOOD_API_KEY")
     let client = Cobinhood.RestClient(key)
@@ -101,6 +102,8 @@ module CobinhoodDemo =
             do! socket.Connect token
             // Precision could be retrieved from <#RestClient>.GetOrderBookPrecision
             do! socket.SubscribeTo({ channel = ChannelType.OrderBook; symbol = "COB-ETH"; precision = "1E-7" })
+
+            socket.DidReceiveOrderBook <- Some(fun (update, market) ->  PrintOrderBook.ToConsole(market))
         })
 
     let SocketTicker () =

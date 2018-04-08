@@ -26,29 +26,10 @@ type WebSocketClient() =
         let messageType = payload.H.[2]
 
         match channelName with
-        | "order" ->
-            value
-            |> WebSocketV2.Order.Parse
-            |> ignore
-        | WebSocketV2.IsOrderBook (_, pair, _precision) ->
-            value
-            |> WebSocketV2.OrderBook.Parse
-            |> WebSocket.OrderBook.ExtractOrderBookMessage
-            |> MessageHandler.UpdateOrderBook pair
-        | WebSocketV2.IsTrade (_, pair) ->
-            let tradeUpdates =
-                value
-                |> WebSocketV2.Trade.Parse
-                |> WebSocket.Trade.ExtractTrodeUpdateMessages(pair)
-
-            match __.DidReceiveTrade with
-            | Some fn -> fn tradeUpdates
-            | None -> ()
-
-        | WebSocketV2.IsTicker (_, pair) ->
-            value
-            |> WebSocketV2.Ticker.Parse
-            |> ignore
+        | "order" -> MessageHandler.HandleOrderUpdate(value)
+        | WebSocketV2.IsOrderBook (_, pair, _precision) -> MessageHandler.HandleOrderBookUpdate(value, pair, __.DidReceiveOrderBook)
+        | WebSocketV2.IsTrade (_, pair) -> MessageHandler.HandleTradeUpdate(value, pair, __.DidReceiveTrade)
+        | WebSocketV2.IsTicker (_, pair) -> MessageHandler.HandleTickerUpdate(value)
         | _ ->
             match messageType with
             // these are likely going to be caught by the above matches

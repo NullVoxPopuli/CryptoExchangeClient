@@ -47,6 +47,40 @@ module MessageHandler =
             then book.Asks.Remove(price) |> ignore
             else book.Asks.[price] <- value
 
-        PrintOrderBook.ToConsole(market)
+        ()
+
+    let HandleOrderBookUpdate(socketMessage: string, pair: string, hook: DidReceiveOrderBookHook) =
+        let orderBookMessage =
+            socketMessage
+            |> WebSocketV2.OrderBook.Parse
+            |> WebSocket.OrderBook.ExtractOrderBookMessage
+
+        orderBookMessage |> UpdateOrderBook pair
+
+        let market = CobinhoodCache.GetMarket(pair)
+
+        match hook with
+        | Some fn -> fn (orderBookMessage, market)
+        | None -> ()
+
+    let HandleTradeUpdate(socketMessage: string, pair: string, hook: DidReceiveTradeHook) =
+        let tradeUpdates =
+            socketMessage
+            |> WebSocketV2.Trade.Parse
+            |> WebSocket.Trade.ExtractTrodeUpdateMessages(pair)
+
+        match hook with
+        | Some fn -> fn tradeUpdates
+        | None -> ()
 
 
+    let HandleOrderUpdate(socketMessage: string) =
+        socketMessage
+        |> WebSocketV2.Order.Parse
+        |> ignore
+
+
+    let HandleTickerUpdate(socketMessage: string) =
+        socketMessage
+        |> WebSocketV2.Ticker.Parse
+        |> ignore
