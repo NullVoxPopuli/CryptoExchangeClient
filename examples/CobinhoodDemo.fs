@@ -87,6 +87,8 @@ module CobinhoodDemo =
         SocketDemo (fun (token) -> async {
             do! socket.Connect token
             do! socket.SubscribeTo({ channel = ChannelType.Trade; symbol = "COB-ETH" })
+
+            socket.DidReceiveTrade <- Some(fun update -> printfn "%A" update)
         })
 
     let SocketPingPong () =

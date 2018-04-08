@@ -50,36 +50,3 @@ module MessageHandler =
         PrintOrderBook.ToConsole(market)
 
 
-    let HandleMessage (value: string) =
-        let payload = value |> WebSocketV2.Payload.Parse
-        let channelName = payload.H.[0]
-        let messageType = payload.H.[2]
-
-
-
-        match channelName with
-        | "order" ->
-            value
-            |> WebSocketV2.Order.Parse
-            |> ignore
-        | WebSocketV2.IsOrderBook (_, pair, _precision) ->
-            value
-            |> WebSocketV2.OrderBook.Parse
-            |> WebSocket.OrderBook.ExtractOrderBookMessage
-            |> UpdateOrderBook pair
-        | WebSocketV2.IsTrade (_, pair) ->
-            value
-            |> WebSocketV2.Trade.Parse
-            |> ignore
-        | WebSocketV2.IsTicker (_, pair) ->
-            value
-            |> WebSocketV2.Ticker.Parse
-            |> ignore
-        | _ ->
-            match messageType with
-            | "pong" -> ()
-            | "error" ->
-                payload
-                |> printfn "message error: %A"
-                ()
-            | _ -> raise (UnknownMessageType(value))

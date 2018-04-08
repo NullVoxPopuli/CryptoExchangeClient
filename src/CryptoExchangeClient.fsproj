@@ -32,6 +32,7 @@
     <Compile Include="exchanges\cobinhood\data\providers\System.fs" />
     <Compile Include="exchanges\cobinhood\data\providers\WebSocketV2.fs" />
     <Compile Include="exchanges\cobinhood\data\transformers\WebSocket\OrderBook.fs" />
+    <Compile Include="exchanges\cobinhood\data\transformers\WebSocket\Trade.fs" />
     <Compile Include="exchanges\cobinhood\data\transformers\Currencies.fs" />
     <Compile Include="exchanges\cobinhood\data\transformers\Orders.fs" />
     <Compile Include="exchanges\cobinhood\data\transformers\Wallets.fs" />

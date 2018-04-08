@@ -11,120 +11,103 @@ open CryptoApi.BaseExchange.Client
 open CryptoApi.Exchanges.Cobinhood.Parameters.SocketParams
 open CryptoApi.Exchanges.Cobinhood.WebSocket
 open IWebsocketClientLite.PCL
+open CryptoApi.Exchanges.Cobinhood.Data.Providers
+open CryptoApi.Exchanges.Cobinhood.Data.Transformers
 
 exception UnknownChannelType of string
 exception UnknownMessageType of string
 
-
 type WebSocketClient() =
     inherit AbstractWebSocketClient("wss://ws.cobinhood.com/v2/ws")
 
-    let minReconnectIntervalMs = 20 * 60 * 1000 // 20 Minutes
-    let pingInterval = 10 * 1000 // 30 seconds
-
-    let mutable client: MessageWebSocketRx = null
-    let mutable clientMessageObserver: IObservable<string> = null
-    let mutable cancelTokenSource: CancellationTokenSource = null;
-
-    member __.GetClient = client
-
-    member __.Send (payload: string) =
-        client.SendTextAsync payload
-        |> Async.AwaitTask
-        |> Async.RunSynchronously  // maybe? do we care if this block?
-
-    member __.Disconnect () =
-        printfn "Disconnecting...."
-        cancelTokenSource.Cancel()
-
-    member __.PingPonger () = __.Send """{"action":"ping"}"""
-
-
-
     member __.OnMessage (value: string): unit =
-        MessageHandler.HandleMessage value
+        let payload = value |> WebSocketV2.Payload.Parse
+        let channelName = payload.H.[0]
+        let messageType = payload.H.[2]
 
-    member __.OnOpen () =
-        RunPeriodically (__.PingPonger, pingInterval, cancelTokenSource.Token)
+        match channelName with
+        | "order" ->
+            value
+            |> WebSocketV2.Order.Parse
+            |> ignore
+        | WebSocketV2.IsOrderBook (_, pair, _precision) ->
+            value
+            |> WebSocketV2.OrderBook.Parse
+            |> WebSocket.OrderBook.ExtractOrderBookMessage
+            |> MessageHandler.UpdateOrderBook pair
+        | WebSocketV2.IsTrade (_, pair) ->
+            let tradeUpdates =
+                value
+                |> WebSocketV2.Trade.Parse
+                |> WebSocket.Trade.ExtractTrodeUpdateMessages(pair)
+
+            match __.DidReceiveTrade with
+            | Some fn -> fn tradeUpdates
+            | None -> ()
+
+        | WebSocketV2.IsTicker (_, pair) ->
+            value
+            |> WebSocketV2.Ticker.Parse
+            |> ignore
+        | _ ->
+            match messageType with
+            // these are likely going to be caught by the above matches
+            | "subscribed" -> ()
+            | "unsubscribed" -> ()
+            | "pong" -> ()
+
+            // other messages
+            | "error" ->
+                payload
+                |> printfn "message error: %A"
+                ()
+            | _ -> raise (UnknownMessageType(value))
+
 
 
     member __.SubscribeTo (socketParams: SocketOrderBookParams): Async<unit> = async {
-        let data: SubscribeToOrderBook = {
+        {
             action = Action.Subscribe |> ActionToString
             channelType = socketParams.channel |> TypeToString
             tradingPairId = socketParams.symbol
             precision = socketParams.precision
         }
-
-        data
         |> Json.serialize
         |> __.Send
     }
 
     member __.SubscribeTo (socketParams: SocketTradeParams): Async<unit> = async {
-         let data: SubscribeToTrade = {
+        {
             action = Action.Subscribe |> ActionToString
             channelType = socketParams.channel |> TypeToString
             tradingPairId = socketParams.symbol
         }
-
-        data
         |> Json.serialize
         |> __.Send
     }
 
     member __.SubscribeTo (socketParams: SocketCandleParams): Async<unit> = async {
-         let data: SubscribeToCandle = {
+        {
             action = Action.Subscribe |> ActionToString;
             channelType = socketParams.channel |> TypeToString;
             tradingPairId = socketParams.symbol
             timeframe = socketParams.timeframe
         }
-
-        data
         |> Json.serialize
         |> __.Send
     }
 
 
-
     member __.Connect (tokenSource: CancellationTokenSource): Async<unit> = async {
-        client <- new MessageWebSocketRx()
-        cancelTokenSource <- tokenSource
+        __.Client <- new MessageWebSocketRx()
+        __.cancelTokenSource <- tokenSource
 
         let headers = dict [
                         "Pragma", "no-cache"
                         "Cache-Control", "no-cache" ]
 
-        let onNextStatus (status: ConnectionStatus) =
-            if status.Equals ConnectionStatus.Disconnected
-                || status.Equals ConnectionStatus.Aborted
-                || status.Equals ConnectionStatus.ConnectionFailed
-            then
-                __.Disconnect()
-
-            if status.Equals ConnectionStatus.Connected
-            then __.OnOpen()
-
-        let onError (ex: Exception) =
-            printfn "Connection Error"
-            __.Disconnect()
-
-        let onCompleted () =
-            printfn "Connection Complete"
-            __.Disconnect()
-
-        let onReceiveError (ex: Exception) =
-            printfn "receive error: %A" ex
-            __.Disconnect()
-
-        let onSubscriptionComplete () =
-            printfn "Subscription Completed"
-            __.Disconnect()
-
-
         let! messageObserver =
-            client.CreateObservableMessageReceiver(
+            __.Client.CreateObservableMessageReceiver(
                 new Uri(__.url),
                 headers = headers,
                 subProtocols = null, // ex: "soap", "json"
@@ -132,13 +115,12 @@ type WebSocketClient() =
                 excludeZeroApplicationDataInPong = true
             ) |> Async.AwaitTask
 
-        clientMessageObserver <- messageObserver
+        __.clientMessageObserver <- messageObserver
 
-
-        client.ObserveConnectionStatus.Subscribe(onNextStatus, onError, onCompleted)
+        __.Client.ObserveConnectionStatus.Subscribe(__.onNextStatus, __.onError, __.onCompleted)
         |> ignore
 
-        messageObserver.Subscribe(__.OnMessage, onReceiveError, onSubscriptionComplete)
+        messageObserver.Subscribe(__.OnMessage, __.onReceiveError, __.onSubscriptionComplete)
         |> ignore
 
 
