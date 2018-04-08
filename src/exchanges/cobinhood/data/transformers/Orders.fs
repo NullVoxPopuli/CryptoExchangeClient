@@ -17,7 +17,7 @@ module Orders =
                               | OrdersOrder o -> o.TradingPairId
                               | OrderOrder o -> o.TradingPairId
 
-        let marketEqualsSymbol = fun km -> km.Symbol.Equals(symbolFromOrder)
+        let marketEqualsSymbol = fun (km: Market) -> km.Symbol.Equals(symbolFromOrder)
         let market = knownMarkets |> Array.find marketEqualsSymbol
 
         let order = {

@@ -4,6 +4,7 @@ module Trade =
     open CryptoApi.BaseExchange.Client
     open CryptoApi.Exchanges.Cobinhood.Data.Providers
     open Rationals
+    open CryptoApi.Data
 
     let ExtractTradeUpdateMessage (symbol: string) (data: string[]): TradeUpdate =
         printfn "%A" data
