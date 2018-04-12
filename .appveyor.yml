@@ -1,8 +1,9 @@
 # version: '1.0.{build}-{branch}'
 image: Visual Studio 2017
-# branches:
-#   only:
-#   - master
+branches:
+  only:
+  # This is actually, master and PRs
+  - master
 before_build:
   - cmd: dotnet --version
   - cmd: sh ./run lib:restore
