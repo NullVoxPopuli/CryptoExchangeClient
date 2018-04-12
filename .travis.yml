@@ -1,6 +1,6 @@
-language: csharp
+language: fsharp
 mono: none
-dotnet: 1.1.5
+dotnet: 2.0.0
 script:
  - ./run test:restore
  - ./run test
