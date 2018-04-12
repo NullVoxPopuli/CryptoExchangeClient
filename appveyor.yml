@@ -10,7 +10,7 @@ install:
   # Install repo specific stuff here
 before_build:
   - cmd: dotnet --version
-  - cmd: ./run lib:restore
+  - cmd: sh ./run lib:restore
 build_script:
   # output will be in ./src/bin/debug/netcoreapp1.1/publish
   - cmd: dotnet publish ./src/src.csproj
@@ -22,8 +22,8 @@ after_build:
 #    type: WebDeployPackage
 test_script:
   # restore packages for our unit tests
-  - cmd: ./run test:restore
-  - cmd: ./run test
+  - cmd: sh ./run test:restore
+  - cmd: sh ./run test
 # on_finish :
   # any cleanup in here
 deploy: off
