@@ -5,6 +5,8 @@ PAKET="./.paket/paket.exe"
 FAKE="packages/build/FAKE/tools/FAKE.exe"
 
 EXAMPLES_PROJ="examples/Examples.fsproj"
+TEST_PORJ="tests/Test.CryptoExchangeClient/Test.CryptoExchangeClient.fsproj"
+SRC_PROJ="src/CryptoExchangeClient.fsproj"
 
 function __run {
 
@@ -31,6 +33,11 @@ function __run {
     examples:build) dotnet build -f ${EXAMPLES_PROJ};;
     examples:restore) dotnet restore -f ${EXAMPLES_PROJ};;
     examples) dotnet run -p ${EXAMPLES_PROJ};;
+
+    test) dotnet test ${TEST_PROJ};;
+    test:restore) dotnet restore ${TEST_PROJ} --verbosity m;;
+
+    lib:restore) dotnet restore ${SRC_PROJ} --verbosity m;;
 
 
     clean:all)
