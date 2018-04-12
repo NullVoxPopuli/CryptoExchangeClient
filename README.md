@@ -5,8 +5,7 @@
 
 This Package's goal is to provide a common interface to exchanges' REST and Websocket apis.
 
-Currently only supports Windows.
- - Waiting on [FSharp.Json](https://github.com/vsapronov/FSharp.Json/issues/7) to support dotnetcore before this library can be cross platform
+Because the package uses only dotnet core 2.0 libraries, it should be cross-platform.
 
 ## Install
 
