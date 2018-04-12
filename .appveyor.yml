@@ -17,6 +17,7 @@ after_build:
 #    type: WebDeployPackage
 test_script:
   # restore packages for our unit tests
+  - cmd: sh dotnet restore
   - cmd: sh ./run test:restore
   - cmd: sh ./run test
 # on_finish :
