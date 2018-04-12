@@ -4,6 +4,8 @@
 PAKET="./.paket/paket.exe"
 FAKE="packages/build/FAKE/tools/FAKE.exe"
 
+EXAMPLES_PROJ="examples/Examples.fsproj"
+
 function __run {
 
   # First arg
@@ -25,6 +27,17 @@ function __run {
     dn)     dotnet $arguments;;
     paket)  ${PAKET} $arguments;;
     fake)   ${FAKE} $arguments Fake.fsx;;
+
+    examples:build) dotnet build -f ${EXAMPLES_PROJ};;
+    examples:restore) dotnet restore -f ${EXAMPLES_PROJ};;
+    examples) dotnet run -p ${EXAMPLES_PROJ};;
+
+
+    clean:all)
+      # Don't name any folders bin or obj
+      rm -rf **/bin/ && \
+      rm -rf **/obj
+    ;;
 
     release)
       local version=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' src/CryptoExchangeClient.fsproj)

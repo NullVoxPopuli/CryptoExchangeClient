@@ -9,13 +9,14 @@
     <Compile Include="Main.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Expecto" Version="7.*" />
-    <PackageReference Include="FSharp.Data" Version="2.4.6" />
-    <PackageReference Include="YoloDev.Expecto.TestSdk" Version="0.*" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.*" />
+    <PackageReference Include="Expecto" Version="*" />
+    <PackageReference Include="FSharp.Core" Version="4.3.4" />
+    <PackageReference Include="FSharp.Data" Version="3.0.0-beta3" />
+    <PackageReference Include="YoloDev.Expecto.TestSdk" Version="*" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="*" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\CryptoExchangeClient.fsproj" />
