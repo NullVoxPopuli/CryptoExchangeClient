@@ -13,7 +13,7 @@
     <PackageReference Include="FSharp.Core" Version="4.3.4" />
     <PackageReference Include="FSharp.Data" Version="3.0.0-beta3" />
     <PackageReference Include="YoloDev.Expecto.TestSdk" Version="*" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0-preview-20170628-02" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="*" />
