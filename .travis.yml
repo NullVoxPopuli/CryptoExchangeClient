@@ -15,10 +15,9 @@ matrix:
     #   dotnet: 2.0.0
 
 before_script:
-  - lsb_release -a
   - uname -a
-  - ./run init
+  - bash -c "./run init"
 
 script:
- - ./run test:restore
- - ./run test
+ - bash -c "./run test:restore"
+ - bash -c "./run test"
