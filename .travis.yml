@@ -13,6 +13,9 @@ matrix:
       osx_image: xcode9.3
       dotnet: 2.0.0
 
+# before_script:
+#   - cd .paket && wget https://github.com/fsprojects/Paket/releases/download/5.156.0/paket.bootstrapper.exe
+#   - ./.paket/paket.bootstrapper.exe
 script:
  - ./run test:restore
  - ./run test
