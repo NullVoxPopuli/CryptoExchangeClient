@@ -46,6 +46,16 @@ function __run {
       rm -rf **/obj
     ;;
 
+    init)
+      cd .paket \
+      rm paket.exe paket.bootstrapper* \
+
+      wget https://github.com/fsprojects/Paket/releases/download/5.156.0/paket.bootstrapper.exe \
+      && chmod +x paket.bootstrapper.exe \
+      && ./paket.bootstrapper.exe \
+      && chmod +x paket.exe
+    ;;
+
     release)
       local version=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' src/CryptoExchangeClient.fsproj)
 
