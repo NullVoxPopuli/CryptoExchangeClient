@@ -16,7 +16,7 @@ matrix:
 
 before_script:
   - lsb_release -a
-  - lname -a
+  - uname -a
   - ./run init
 
 script:
