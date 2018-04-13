@@ -2,6 +2,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{DFE91626-FE4B-4A4F-A12D-EB64AA03ECFC}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CryptoExchangeClient", "src\CryptoExchangeClient.fsproj", "{0DAE68DE-78F6-4AE5-82D2-C8670A52C94E}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Examples", "examples\Examples.fsproj", "{07A951C9-7EF9-4E16-8FE5-3F57A72EAB35}"

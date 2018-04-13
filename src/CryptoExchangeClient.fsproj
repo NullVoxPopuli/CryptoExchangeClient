@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -46,14 +47,5 @@
     <Compile Include="exchanges\cobinhood\clients\RestClient.fs" />
     <Compile Include="exchanges\cobinhood\clients\WebSocketClient.fs" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="FSharp.Json" Version="0.3.3" />
-    <PackageReference Include="Paket" Version="5.156.0" />
-    <PackageReference Include="FSharp.Data" Version="3.0.0-beta3" />
-    <PackageReference Include="Rationals" Version="1.3.1" />
-    <PackageReference Include="RestSharp" Version="106.3.0-alpha0018" />
-    <PackageReference Include="SocketLite.PCL" Version="4.2.1" />
-    <PackageReference Include="WebsocketClientLite.PCL" Version="4.2.5" />
-    <PackageReference Include="FSharp.Core" Version="4.3.4" />
-  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
