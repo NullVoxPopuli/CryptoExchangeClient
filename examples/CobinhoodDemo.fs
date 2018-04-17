@@ -123,7 +123,7 @@ module CobinhoodDemo =
         })
 
     let optionMap = [
-        ("", "Public Endpoints", PlaceholderFn )
+        Section("Public Endpoints")
         Spacer
 
         ("1", "GET system/time", SystemTime)
@@ -138,7 +138,7 @@ module CobinhoodDemo =
         ("10", "GET market/trades/ETH-BTC", Trades)
 
         Spacer
-        ("", "Auth Endpoints", PlaceholderFn )
+        Section("Auth Endpoints")
         Spacer
 
         ("11", "GET trading/orders", GetOrders)
@@ -160,7 +160,7 @@ module CobinhoodDemo =
         ("27", "GET wallet/deposits", GetAllDEposits)
 
         Spacer
-        ("", "WebSocket - Public Stream", PlaceholderFn )
+        Section("WebSocket - Public Stream")
         Spacer
 
         ("28", "ping/pong", SocketPingPong)
@@ -170,7 +170,7 @@ module CobinhoodDemo =
         ("32", "Candles for COB-ETH", SocketCandle)
 
         Spacer
-        ("", "WebSocket - Auth", PlaceholderFn )
+        Section("WebSocket - Auth")
         Spacer
     ]
 
@@ -182,5 +182,3 @@ module CobinhoodDemo =
 //#else
 //CobinhoodDemo.BeginDemo
 //#endif
-
-

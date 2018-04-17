@@ -13,7 +13,7 @@ Because the package uses only dotnet core 2.0 libraries, it should be cross-plat
  <tr>
   <th><a href="https://github.com/dotnet/cli">dotnet cli</a>
   </th><td>
-  
+
 ```bash
 dotnet add package CryptoExchangeClient
 ```
@@ -21,7 +21,7 @@ dotnet add package CryptoExchangeClient
  </tr>
  <tr>
  <th><a href="https://fsprojects.github.io/Paket/">paket</a></th><td>
- 
+
 ```bash
 paket add CryptoExchangeClient
 ```
@@ -72,3 +72,7 @@ paket add CryptoExchangeClient
 
 Once the Visual Studio Extensions are installed, open the solution
 - Tools -> Paket -> Restore All Packages
+
+### References
+
+[Installing the current dotnetcore sdk](https://www.microsoft.com/net/download/linux-package-manager/ubuntu16-04/sdk-current)
