@@ -4,10 +4,10 @@ language: csharp
 matrix:
   include:
     - os: linux
-      # dist: xenial # 16.04
-      dist: trusty # 14.04
+      dist: xenial # 16.04
+      # dist: trusty # 14.04
       sudo: required
-      dotnet: 2.0.0
+      dotnet: 2.1.104
 
     # https://docs.travis-ci.com/user/reference/osx/#OS-X-Version
     # - os: osx # OSX 10.13
