@@ -21,8 +21,8 @@ function __run {
 
 
   # For debugging
-  echo "cmd:  $given_command"
-  echo "args: $arguments"
+  # echo "cmd:  $given_command"
+  # echo "args: $arguments"
 
   case $given_command in
     p)      ${PAKET} $arguments;;
@@ -39,8 +39,13 @@ function __run {
 
     restore) ${PAKET} restore;;
 
+    build)
+      echo "Building..."
+      dotnet build $arguments
+    ;;
 
     clean:all)
+      echo "Cleaning..."
       # Don't name any folders bin or obj
       rm -rf **/bin/ && \
       rm -rf **/obj
@@ -63,10 +68,18 @@ function __run {
       echo "Releasing v. $version"
       echo ""
 
-      dotnet pack src/CryptoExchangeClient.fsproj && \
+      echo "Packing..."
+      dotnet pack src/CryptoExchangeClient.fsproj --include-symbols --include-source && \
+      echo "Pushing..." && \
       dotnet nuget push src/bin/Debug/CryptoExchangeClient.$version.nupkg \
         -k $NUGET_KEY \
         -s https://api.nuget.org/v3/index.json
+    ;;
+
+    release:clean)
+      ( ./run clean:all ) && \
+      ( ./run build ) && \
+      ( ./run release )
     ;;
 
     *)
