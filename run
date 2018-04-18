@@ -1,7 +1,13 @@
 #!/bin/bash
 
+# Thanks, mac OS -.-
+function exe_shim() {
+  if [ "$(uname)" == "Darwin" ]; then
+    echo "mono "
+  fi
+}
 
-PAKET="./.paket/paket.exe"
+PAKET="${exe_shim} ./.paket/paket.exe"
 FAKE="packages/build/FAKE/tools/FAKE.exe"
 
 EXAMPLES_PROJ="examples/Examples.fsproj"
@@ -57,7 +63,7 @@ function __run {
 
       wget https://github.com/fsprojects/Paket/releases/download/5.156.0/paket.bootstrapper.exe \
       && chmod +x paket.bootstrapper.exe \
-      && ./paket.bootstrapper.exe \
+      && ${exe_shim} ./paket.bootstrapper.exe \
       && chmod +x paket.exe
     ;;
 
