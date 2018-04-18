@@ -62,9 +62,13 @@ function __run {
       cd .paket \
       rm paket.exe paket.bootstrapper* \
 
+      local exeshim=__exe_shim
+
+      echo "shim: $exeshim"
+
       wget https://github.com/fsprojects/Paket/releases/download/5.156.0/paket.bootstrapper.exe \
       && chmod +x paket.bootstrapper.exe \
-      && ${__exe_shim} ./paket.bootstrapper.exe \
+      && ${exeshim} ./paket.bootstrapper.exe \
       && chmod +x paket.exe
     ;;
 
