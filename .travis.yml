@@ -22,5 +22,5 @@ before_script:
   - bash -c "./run init"
 
 script:
- - bash -c "./run test:restore"
+ - bash -c "./run restore"
  - bash -c "./run test"
