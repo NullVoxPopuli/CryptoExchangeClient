@@ -51,6 +51,11 @@ function __run {
       dotnet build $arguments
     ;;
 
+    rebuild)
+      ( ./run clean:all ) && \
+      ( ./run build )
+    ;;
+
     clean:all)
       echo "Cleaning..."
       # Don't name any folders bin or obj
