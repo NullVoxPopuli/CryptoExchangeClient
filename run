@@ -1,13 +1,14 @@
 #!/bin/bash
-
 # Thanks, mac OS -.-
-function exe_shim() {
+function __exe_shim {
   if [ "$(uname)" == "Darwin" ]; then
     echo "mono "
   fi
+
+  echo ""
 }
 
-PAKET="${exe_shim} ./.paket/paket.exe"
+PAKET="$(__exe_shim) ./.paket/paket.exe"
 FAKE="packages/build/FAKE/tools/FAKE.exe"
 
 EXAMPLES_PROJ="examples/Examples.fsproj"
@@ -31,7 +32,7 @@ function __run {
   # echo "args: $arguments"
 
   case $given_command in
-    p)      ${PAKET} $arguments;;
+    p)      echo ": $PAKET :" && ${PAKET} $arguments;;
     dn)     dotnet $arguments;;
     paket)  ${PAKET} $arguments;;
     fake)   ${FAKE} $arguments Fake.fsx;;
