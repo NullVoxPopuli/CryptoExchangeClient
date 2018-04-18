@@ -29,6 +29,17 @@ paket add CryptoExchangeClient
  </tr>
 </table>
 
+<table>
+ <thead><tr><th>Windows</th><th>Linux</th></tr></thead>
+ <tbody>
+   <tr>
+    <td><img src="https://ci.appveyor.com/api/projects/status/kl42n95n9vgc3i50/branch/master?svg=true"></td>
+    <td><img src="https://travis-ci.org/NullVoxPopuli/CryptoExchangeClient.svg?branch=master"></td>
+   </tr>
+ </tbody>
+</table>
+
+
 ## Demo
 
 1. Clone this repo
