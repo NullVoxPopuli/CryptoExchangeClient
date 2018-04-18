@@ -1,0 +1,20 @@
+# version: '1.0.{build}-{branch}'
+image: Visual Studio 2017
+before_build:
+  - cmd: dotnet --version
+  - cmd: sh ./run test:restore
+build_script:
+  - cmd: echo "not 'building'"
+
+after_build:
+  # For once the build has completed
+# artifacts:
+#  - path: '\src\bin\Debug\netcoreapp1.1\publish'
+#    name: WebSite
+#    type: WebDeployPackage
+test_script:
+  # restore packages for our unit tests
+  - cmd: sh ./run test
+# on_finish :
+  # any cleanup in here
+deploy: off

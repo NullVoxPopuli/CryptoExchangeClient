@@ -51,6 +51,10 @@ module InteractiveUtils =
 
 
     let PlaceholderFn () = ()
+
+    let Section (title: string) =
+      ("", title, PlaceholderFn)
+
     let Spacer =
         ("", "", PlaceholderFn)
 

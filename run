@@ -4,6 +4,10 @@
 PAKET="./.paket/paket.exe"
 FAKE="packages/build/FAKE/tools/FAKE.exe"
 
+EXAMPLES_PROJ="examples/Examples.fsproj"
+TEST_PROJ="tests/Test.CryptoExchangeClient/Test.CryptoExchangeClient.fsproj"
+SRC_PROJ="src/CryptoExchangeClient.fsproj"
+
 function __run {
 
   # First arg
@@ -25,6 +29,32 @@ function __run {
     dn)     dotnet $arguments;;
     paket)  ${PAKET} $arguments;;
     fake)   ${FAKE} $arguments Fake.fsx;;
+
+    examples:build) dotnet build -f ${EXAMPLES_PROJ};;
+    examples:restore) dotnet restore -f ${EXAMPLES_PROJ};;
+    examples) dotnet run -p ${EXAMPLES_PROJ};;
+
+    test) (cd tests/Test.CryptoExchangeClient && dotnet test Test.CryptoExchangeClient.fsproj);;
+    test:restore) ${PAKET} restore -p ${TEST_PROJ};;
+
+    restore) ${PAKET} restore;;
+
+
+    clean:all)
+      # Don't name any folders bin or obj
+      rm -rf **/bin/ && \
+      rm -rf **/obj
+    ;;
+
+    init)
+      cd .paket \
+      rm paket.exe paket.bootstrapper* \
+
+      wget https://github.com/fsprojects/Paket/releases/download/5.156.0/paket.bootstrapper.exe \
+      && chmod +x paket.bootstrapper.exe \
+      && ./paket.bootstrapper.exe \
+      && chmod +x paket.exe
+    ;;
 
     release)
       local version=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' src/CryptoExchangeClient.fsproj)

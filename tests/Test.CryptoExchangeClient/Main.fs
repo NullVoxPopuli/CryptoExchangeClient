@@ -1,4 +1,4 @@
-﻿module crypto_api_tests
+﻿module Test.CryptoExchangeClient
 open Expecto
 
 [<EntryPoint>]

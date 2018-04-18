@@ -1,29 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Chessie" Version="0.6.0" />
-    <PackageReference Include="Colorful.Console" Version="1.2.6" />
-    <PackageReference Include="FSharp.Data" Version="3.0.0-beta3" />
-    <PackageReference Include="RestSharp" Version="106.3.0-alpha0018" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\src\CryptoExchangeClient.fsproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Include="InteractiveUtils.fs" />
     <Compile Include="CobinhoodDemo.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.3.4" />
-  </ItemGroup>
-
+  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

@@ -114,7 +114,7 @@ obj/
 ### F# ###
 lib/debug
 lib/release
-Debug
+/Debug
 *.suo
 *.user
 obj
