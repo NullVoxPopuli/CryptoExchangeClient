@@ -1,7 +1,7 @@
 source https://www.nuget.org/api/v2
 nuget Chessie 0.6.0
 nuget Colorful.Console 1.2.6
-nuget CryptoExchangeClient 0.4.0
+nuget CryptoExchangeClient 0.3.0
 nuget Expecto
 nuget FSharp.Core 4.3.4
 nuget FSharp.Data 3.0.0-beta3 beta
