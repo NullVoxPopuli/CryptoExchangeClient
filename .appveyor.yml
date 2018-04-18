@@ -2,7 +2,6 @@
 image: Visual Studio 2017
 before_build:
   - cmd: dotnet --version
-before_build:
   - cmd: sh ./run test:restore
 build_script:
   - cmd: echo "not 'building'"
