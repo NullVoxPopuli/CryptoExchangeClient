@@ -1,15 +1,15 @@
 language: csharp
-# mono: none
-addons:
-  apt:
-    sources:
-    - sourceline: 'deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main'
-      key_url: 'https://packages.microsoft.com/keys/microsoft.asc'
-    packages:
-    - aspnetcore-store-2.0.6
-    - aspnetcore-store-2.0.7
-    - aspnetcore-runtime-2.1.0-preview2-final
-
+mono: none
+# addons:
+#   apt:
+#     sources:
+#     - sourceline: 'deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main'
+#       key_url: 'https://packages.microsoft.com/keys/microsoft.asc'
+#     packages:
+#     - aspnetcore-store-2.0.6
+#     - aspnetcore-store-2.0.7
+#     - aspnetcore-runtime-2.1.0-preview2-final
+#
 matrix:
   allow_failures:
     # - os: osx
