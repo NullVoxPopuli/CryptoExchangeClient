@@ -1,15 +1,5 @@
 language: csharp
-mono: none
-# addons:
-#   apt:
-#     sources:
-#     - sourceline: 'deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main'
-#       key_url: 'https://packages.microsoft.com/keys/microsoft.asc'
-#     packages:
-#     - aspnetcore-store-2.0.6
-#     - aspnetcore-store-2.0.7
-#     - aspnetcore-runtime-2.1.0-preview2-final
-#
+
 matrix:
   allow_failures:
     # - os: osx
@@ -22,9 +12,9 @@ matrix:
       dotnet: 2.1.104
 
     # https://docs.travis-ci.com/user/reference/osx/#OS-X-Version
-    - os: osx # OSX 10.13
-      osx_image: xcode9.3
-      dotnet: 2.1.104
+    # - os: osx # OSX 10.13
+    #   osx_image: xcode9.3
+    #   dotnet: 2.1.104
 
 before_script:
   - uname -a
