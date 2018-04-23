@@ -1,18 +1,18 @@
 source https://www.nuget.org/api/v2
-nuget Chessie 0.6.0
-nuget Colorful.Console 1.2.6
-nuget CryptoExchangeClient 0.4.0
+nuget Chessie ~> 0.6
+nuget Colorful.Console ~> 1.2
+nuget CryptoExchangeClient ~> 0.3
 nuget Expecto
-nuget FSharp.Core 4.3.4
-nuget FSharp.Data 3.0.0-beta3 beta
-nuget FSharp.Json 0.3.3
+nuget FSharp.Core ~> 4.3
+nuget FSharp.Data ~> 3.0.0-beta3 beta
+nuget FSharp.Json ~> 0.3
 clitool Microsoft.DotNet.Watcher.Tools
-nuget Microsoft.NET.Test.Sdk 15.3.0-preview-20170628-02 preview
-nuget Paket 5.156.0
-nuget Rationals 1.3.1
-nuget RestSharp 106.3.0-alpha0018 alpha
-nuget SocketLite.PCL 4.2.1
-nuget WebsocketClientLite.PCL 4.2.5
-nuget xunit 2.2.0
-nuget xunit.runner.visualstudio 2.2.0
+nuget Microsoft.NET.Test.Sdk ~> 15.3.0-preview-20170628-02 preview
+nuget Paket ~> 5.156
+nuget Rationals ~> 1.3
+nuget RestSharp ~> 106.3.0-alpha0018 alpha
+nuget SocketLite.PCL ~> 4.2
+nuget WebsocketClientLite.PCL ~> 4.2
+nuget xunit ~> 2.2
+nuget xunit.runner.visualstudio ~> 2.2
 nuget YoloDev.Expecto.TestSdk

@@ -1,5 +1,4 @@
 language: csharp
-# mono: none
 
 matrix:
   allow_failures:
@@ -12,6 +11,15 @@ matrix:
       sudo: required
       dotnet: 2.1.104
 
+    - os: linux
+      services:
+        - docker
+      before_script:
+        - ./docko build
+
+      script:
+        - ./docko run --rm cec bash -c "./run test"
+
     # https://docs.travis-ci.com/user/reference/osx/#OS-X-Version
     - os: osx # OSX 10.13
       osx_image: xcode9.3
@@ -22,5 +30,5 @@ before_script:
   - bash -c "./run init"
 
 script:
- - bash -c "./run test:restore"
+ - bash -c "./run restore"
  - bash -c "./run test"

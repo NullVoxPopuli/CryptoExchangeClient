@@ -8,7 +8,7 @@
     <PackageLicenseUrl>https://github.com/NullVoxPopuli/CryptoExchangeClient/blob/master/LICENSE</PackageLicenseUrl>
     <Description>Clients for multiple cryptocurrency exchanges. All clients have a shared interface for common actions.
 </Description>
-    <PackageTags>cryptocurrency, blockchain, rest, websocket, api, client, crypto, bitcoin, exchange</PackageTags>
+    <PackageTags>cryptocurrency, blockchain, rest, websocket, api, client, crypto, bitcoin, exchange, ethereum</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>

@@ -1,7 +1,17 @@
 #!/bin/bash
+function __exe_shim {
+  . /etc/os-release
+  os_name="$ID"
 
+  # MacOS, non-ubuntu debian-based OSes
+  if [ "$(uname)" == "Darwin" ]; then echo "mono "; fi
+  if [ "$os_name" == "debian" ]; then echo "mono "; fi
 
-PAKET="./.paket/paket.exe"
+  # Ubuntu / Windows
+  echo ""
+}
+
+PAKET="$(__exe_shim) ./.paket/paket.exe"
 FAKE="packages/build/FAKE/tools/FAKE.exe"
 
 EXAMPLES_PROJ="examples/Examples.fsproj"
@@ -25,7 +35,7 @@ function __run {
   # echo "args: $arguments"
 
   case $given_command in
-    p)      ${PAKET} $arguments;;
+    p)      echo ": $PAKET :" && ${PAKET} $arguments;;
     dn)     dotnet $arguments;;
     paket)  ${PAKET} $arguments;;
     fake)   ${FAKE} $arguments Fake.fsx;;
@@ -44,6 +54,11 @@ function __run {
       dotnet build $arguments
     ;;
 
+    rebuild)
+      ( ./run clean:all ) && \
+      ( ./run build )
+    ;;
+
     clean:all)
       echo "Cleaning..."
       # Don't name any folders bin or obj
@@ -55,9 +70,13 @@ function __run {
       cd .paket \
       rm paket.exe paket.bootstrapper* \
 
+      local exeshim=__exe_shim
+
+      echo "shim: $exeshim"
+
       wget https://github.com/fsprojects/Paket/releases/download/5.156.0/paket.bootstrapper.exe \
       && chmod +x paket.bootstrapper.exe \
-      && ./paket.bootstrapper.exe \
+      && ${exeshim} ./paket.bootstrapper.exe \
       && chmod +x paket.exe
     ;;
 
