@@ -1,10 +1,13 @@
 #!/bin/bash
-# Thanks, mac OS -.-
 function __exe_shim {
-  if [ "$(uname)" == "Darwin" ]; then
-    echo "mono "
-  fi
+  . /etc/os-release
+  os_name="$ID"
 
+  # MacOS, non-ubuntu debian-based OSes
+  if [ "$(uname)" == "Darwin" ]; then echo "mono "; fi
+  if [ "$os_name" == "debian" ]; then echo "mono "; fi
+
+  # Ubuntu / Windows
   echo ""
 }
 

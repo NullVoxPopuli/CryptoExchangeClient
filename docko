@@ -1,0 +1,40 @@
+#!/bin/bash
+# Thanks, mac OS -.-
+PAKET="./.paket/paket.exe"
+FAKE="packages/build/FAKE/tools/FAKE.exe"
+
+EXAMPLES_PROJ="examples/Examples.fsproj"
+TEST_PROJ="tests/Test.CryptoExchangeClient/Test.CryptoExchangeClient.fsproj"
+SRC_PROJ="src/CryptoExchangeClient.fsproj"
+
+COMPOSE="docker-compose -f docker-compose.yml --project-directory . -p crypto-exchange-client"
+
+function __run {
+
+  # First arg
+  given_command=$1
+  # The rest of the args
+  arguments=${@:2}
+
+  # For Sub-command redirection
+  sub_command=$2
+  sub_arguments=${@:3}
+
+
+  # For debugging
+  # echo "cmd:  $given_command"
+  # echo "args: $arguments"
+
+  case $given_command in
+    bash) ${COMPOSE} run --rm cec bash;;
+
+    *)
+      echo "forwarding to docker-compose"
+      ${COMPOSE} $@
+  esac
+}
+
+# Also allow non-sourced running
+if [ $1 ]; then
+  __run $*
+fi
